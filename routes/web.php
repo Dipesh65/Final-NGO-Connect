@@ -94,10 +94,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/notifications', [People\NotificationController::class, 'index'])->name('people.notifications');
         Route::post('/notifications/{id}/read', [People\NotificationController::class, 'markAsRead'])->name('people.notifications.read');
 
-
         Route::get('/ngo/register', [People\NgoRegisterController::class, 'showRegistrationForm'])->name('people.ngo.register.form');
         Route::post('/ngo/register', [People\NgoRegisterController::class, 'register'])->name('people.ngo.register');
-
 
         // NGO Profile Routes
         Route::get('/ngo/{id}', [People\NgoProfileController::class, 'show'])->name('people.ngo.profile');
@@ -107,9 +105,10 @@ Route::middleware('auth')->group(function () {
     // Shared routes (ngo and people, role_id=1,2)
     Route::middleware('role:1,2')->group(function () {
         Route::get('/feed', [Common\FeedController::class, 'index'])->name('common.feed');
-        Route::post('/feed/like', [Common\FeedController::class, 'like'])->name('common.feed.like');
-        Route::post('/feed/comment', [Common\FeedController::class, 'comment'])->name('common.feed.comment');
-        Route::post('/feed', [Common\FeedController::class, 'create'])->name('common.feed.create');
+        Route::post('/feed', [Common\FeedController::class, 'create'])->name('common.post.create');
+        Route::post('/post/like', [Common\FeedController::class, 'like'])->name('common.post.like');
+        Route::post('/post/comment', [Common\FeedController::class, 'comment'])->name('common.post.comment');
+        Route::post('/post/report', [Common\FeedController::class, 'report'])->name('common.post.report');
 
         Route::get('/ngos/search', [People\NgoSearchController::class, 'index'])->name('people.ngo.search');
     });

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostHasComments;
 use App\Models\PostHasLikes;
+use App\Models\PostHasReports;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 class FeedController extends Controller
 {
@@ -84,5 +86,36 @@ class FeedController extends Controller
         ]);
 
         return redirect()->route('common.feed')->with('success', 'Post created successfully!');
+    }
+
+    public function report(Request $request){
+        $request->validate([
+            'post_id' => 'required|exists:posts,id',
+            'report_description' =>'max:255',
+            'reason' => 'required|string|max:255',
+        ]);
+
+        if($request->reason == "other" && $request->report_description == NULL){
+            return response()->json(['message' => 'Pease write a report description'], 400);
+
+        }
+
+        $user = auth()->user();
+
+        $alreadyReported = PostHasReports::where('user_id',$user->id)->where('post_id',$request->post_id);
+        
+        if($alreadyReported->exists()){
+            return response()->json(['message' => 'You have already reported this Post'], 400);
+        }
+
+
+        PostHasReports::create([
+            'report_description' => $request->report_description,
+            'reason' => $request->reason,
+            'post_id' => $request->post_id,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->route('common.feed')->with('Error', 'Post reported successfully!');
     }
 }
