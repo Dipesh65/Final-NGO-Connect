@@ -1,60 +1,65 @@
 @extends('layouts.guest')
 
 @section('content')
-    <div class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+    <div class="bg-gray-50 min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+    <!-- Background shapes -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-red-100 rounded-full opacity-20"></div>
+            <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-red-50 rounded-full opacity-30"></div>
+            <div class="absolute top-1/4 -left-20 w-40 h-40 bg-red-200 rounded-full opacity-15"></div>
+        </div>
 
-        <div class="bg-white shadow-lg rounded-2xl w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-
-            {{-- Left Side - Welcome Text --}}
-            <div class="bg-red-500 text-white p-8 flex flex-col justify-center">
-                <h1 class="text-3xl font-bold mb-4">Welcome to a NGO Connect</h1>
-                <p class="text-lg">Connecting NGOs with Supporters Worldwide. A dedicated social platform where NGOs can
-                    share their work, organize events, and connect with volunteers and donors to create meaningful impact.
-                </p>
+        <div class="bg-white shadow-xl rounded-2xl w-full max-w-4xl overflow-hidden relative z-10">
+            <div class="bg-white px-12 py-8 text-center border-b border-gray-100 relative">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+                <p class="text-gray-600 text-lg">Sign in to your NGO Connect account</p>
             </div>
 
-            {{-- Right Side - Registration Form --}}
-            <div class="p-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Login</h2>
+            <!-- Form -->
+            <div class="bg-white px-12 py-10">
+                @if ($errors->any())
+                    <div class="bg-red-50 border border-red-200 text-red-600 p-4 mb-8 rounded-lg">
+                        <ul class="space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li class="text-sm">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-5">
+                <form action="{{ route('login') }}" method="POST" class="space-y-8">
                     @csrf
 
-                    {{-- Email --}}
-                    <div class="mb-3 md:mb-4">
-                        <label for="email" class="block text-sm md:text-base font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}"
-                            class="mt-1 p-2 md:p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-red-400 bg-white"
-                            required />
-                    </div>
-                    @error('email')
-                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                    @enderror
-
-                    {{-- Password --}}
-                    <div class="mb-3 md:mb-4">
-                        <label for="password" class="block text-sm md:text-base font-medium text-gray-700">Password</label>
-                        <input type="password" name="password"
-                            class="mt-1 p-2 md:p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-red-400 bg-white"
-                            required />
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" name="email" id="email" value="{{ old('email') }}"
+                            class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                            placeholder="Enter your email address"
+                            required>
                     </div>
 
-                    {{-- Submit Button --}}
-                    <div>
-                        <button type="submit"
-                            class="w-full bg-black text-white p-2 md:p-2 rounded hover:bg-gray-800 mt-3 md:mt-4">
-                            Log in
-                        </button>
+                    <div class="space-y-2">
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" name="password" id="password"
+                            class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                            placeholder="Enter your password"
+                            required>
                     </div>
 
-                    {{-- Registration Link for New Users --}}
-                    <div class="text-center">
-                        <p class="mt-3 md:mt-4 text-center">
-                            Don't have an accout?
-                            <a href="{{ route('register') }}" class="text-red-700 hover:underline">Sign Up</a>
-                        </p>
-                    </div>
+                    <button type="submit"
+                        class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-lg">
+                        Sign In
+                    </button>
                 </form>
+                
+                <div class="mt-10 text-center">
+                    <p class="text-gray-600 text-lg">
+                        Don't have an account? 
+                        <a href="{{ route('register') }}" class="text-red-500 hover:text-red-600 font-medium transition-colors">
+                            Sign Up
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

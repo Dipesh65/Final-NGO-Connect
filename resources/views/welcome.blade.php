@@ -9,10 +9,47 @@
             </div>
             <div class="space-x-4">
                 <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-800">Login</a>
-                <a href="{{ route('register') }}"
-                    class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Register</a>
+                {{-- <a href="{{ route('register') }}"
+                    class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">Register</a> --}}
             </div>
         </header>
+
+        <!-- Added search bar section below header -->
+        <section class="bg-white border-b border-gray-200 py-6 px-4">
+            <div class="max-w-4xl mx-auto">
+                <form action="#" method="GET" class="relative">
+                    <div class="flex items-center">
+                        <div class="relative flex-1">
+                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" name="query" placeholder="Search for NGOs by name, cause, or location..."
+                                value="{{ request('query') }}"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-700 placeholder-gray-500">
+                        </div>
+                        <button type="submit"
+                            class="ml-3 bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
+                            Search NGOs
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Added popular search suggestions -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="text-sm text-gray-600">Popular searches:</span>
+                    <a href="#"
+                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Education</a>
+                    <a href="#"
+                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Healthcare</a>
+                    <a href="#"
+                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Environment</a>
+                    <a href="#"
+                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Poverty</a>
+                </div>
+            </div>
+        </section>
 
         <!-- Hero Section-->
         <section class="text-center py-14 px-4 bg-gray-50">
@@ -20,8 +57,10 @@
             <p class="mt-4 text-lg text-gray-600 max-w-xl mx-auto">A dedicated social platform where NGOs can share their
                 work, organize events, and connect with volunteers and donors to create meaningful impact.</p>
             <div class="mt-6 space-x-4">
-                <a href="{{ route('register') }}" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Join
-                    Now</a>
+                <a href="{{ route('register') }}"
+                    class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Register as NGO</a>
+                <a href="{{ route('register') }}"
+                    class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Register as User</a>
             </div>
         </section>
 
@@ -94,7 +133,7 @@
                 <div class="p-6 bg-gray-50 rounded-lg shadow-md text-left">
                     <div class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center mb-4">1</div>
                     <h3 class="text-xl font-semibold text-gray-800">Create Your Profile</h3>
-                    <p class="mt-2 text-gray-600">Sign up as an NGO or supporter and create your profile with relevant
+                    <p class="mt-2 text-gray-600">Sign up as a user, create NGO profiles with relevant
                         information about your organization or interests.</p>
                 </div>
 
@@ -120,8 +159,9 @@
             <h1 class="text-4xl font-bold text-gray-800">Ready to Make an Impact?</h1>
             <p class="mt-4 text-lg text-gray-600 max-w-md mx-auto">Join our growing community of NGOs and supporters working
                 together for positive change.</p>
-                <div class="mt-6 space-x-4">
-                <a href="{{ route('register') }}" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Get Started</a>
+            <div class="mt-6 space-x-4">
+                <a href="{{ route('register') }}" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Get
+                    Started</a>
             </div>
         </section>
 

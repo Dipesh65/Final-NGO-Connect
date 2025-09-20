@@ -26,9 +26,14 @@ class FeedController extends Controller
         $post = Post::findOrFail($request->post_id);
         $user = auth()->user();
 
-        // Check if user already liked the post
-        if (PostHasLikes::where('user_id', $user->id)->where('post_id', $request->post_id)->exists()) {
-            return response()->json(['message' => 'You already liked this post'], 400);
+        // Check if user has already liked the post
+        $alreadyLiked = PostHasLikes::where('user_id',$user->id)->where('post_id',$post->id);
+
+        if($alreadyLiked->exists()){
+            $alreadyLiked = $alreadyLiked->first();
+            $alreadyLiked->delete();
+
+            return response()->json(['message' => 'You already liked this post',],400);
         }
 
         // Like the post
@@ -37,9 +42,7 @@ class FeedController extends Controller
             'user_id' => $user->id,
         ]);
 
-        return response()->json([
-            'message' => 'Liked the post successfully',
-        ], 201);
+        return response()->json(['message' => 'Liked the post successfully',], 201);
     }
 
     public function comment(Request $request)
@@ -47,20 +50,23 @@ class FeedController extends Controller
         $request->validate([
             'post_id' => 'required|exists:posts,id',
             'comment' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:post_has_comments,id',
         ]);
 
-        $post = Post::findOrFail($request->post_id);
         $user = auth()->user();
 
         // Comment on the post
-        PostHasComments::create([
+        $comment = PostHasComments::create([
+            'comment' => $request->comment,
             'post_id' => $request->post_id,
             'user_id' => $user->id,
-            'comment' => $request->comment,
+            'parent_id' => $request->parent_id,
         ]);
 
+        $comments = PostHasComments::with(['user','replies.user'])->where('post_id',$request->post_id)->whereNull('parent_id')->get();
         return response()->json([
-            'comment' => $request->comment,
+            'id' => $comment->id,
+            'comments' => $comments,
         ], 201);
     }
 
