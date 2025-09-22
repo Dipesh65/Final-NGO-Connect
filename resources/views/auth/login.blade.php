@@ -55,7 +55,7 @@
                 <div class="mt-10 text-center">
                     <p class="text-gray-600 text-lg">
                         Don't have an account? 
-                        <a href="{{ route('register') }}" class="text-red-500 hover:text-red-600 font-medium transition-colors">
+                        <a href="{{ route('register.people') }}" class="text-red-500 hover:text-red-600 font-medium transition-colors">
                             Sign Up
                         </a>
                     </p>

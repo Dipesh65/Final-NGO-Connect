@@ -22,8 +22,18 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    if (!auth()->check()) {
+        return view('welcome');
+    }
+
+    // If logged in as role 1 or 2, show feed to the user
+    if (in_array(auth()->user()->role_id, [1, 2])) {
+        return app(\App\Http\Controllers\Common\FeedController::class)->index();
+    }
+
+    return redirect()->route('admin.dashboard');
+})->name('root');
+
 
 Route::middleware('auth')->group(function () {
 

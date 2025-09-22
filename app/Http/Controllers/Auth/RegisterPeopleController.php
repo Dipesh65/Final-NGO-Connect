@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class RegisterController extends Controller
+class RegisterPeopleController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        return view('auth.people.register');
     }
 
     public function register(Request $request)
@@ -32,7 +32,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => 2, // Default to people
-            'verified' => true, // People are verified by default
+            'verified' => true,
         ]);
 
         auth()->login($user);
