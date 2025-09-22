@@ -68,7 +68,6 @@
 
                     <!-- Step 1: Basic Details -->
                     <div id="step1" class="step-content">
-                        <!-- Added required fields note at the top of step 1 -->
                         <div class="bg-blue-50 border border-blue-200 text-blue-700 p-4 mb-6 rounded-lg">
                             <p class="text-sm font-medium">
                                 <strong>Note:</strong> Fields marked with * are required. Please fill them.
@@ -143,7 +142,6 @@
 
                     <!-- Step 2: Legal Details -->
                     <div id="step2" class="step-content hidden">
-                        <!-- Added required fields note at the top of step 2 -->
                         <div class="bg-blue-50 border border-blue-200 text-blue-700 p-4 mb-6 rounded-lg">
                             <p class="text-sm font-medium">
                                 <strong>Note:</strong> Fields marked with * are required. Please fill them.
@@ -198,7 +196,6 @@
 
                     <!-- Step 3: Contact Person -->
                     <div id="step3" class="step-content hidden">
-                        <!-- Added required fields note at the top of step 3 -->
                         <div class="bg-blue-50 border border-blue-200 text-blue-700 p-4 mb-6 rounded-lg">
                             <p class="text-sm font-medium">
                                 <strong>Note:</strong> Fields marked with * are required. Please fill them.

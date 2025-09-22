@@ -14,7 +14,7 @@
             </div>
         </header>
 
-        <!-- Added search bar section below header -->
+        <!-- Search bar section below -->
         <section class="bg-white border-b border-gray-200 py-6 px-4">
             <div class="max-w-4xl mx-auto">
                 <form action="#" method="GET" class="relative">
@@ -35,19 +35,6 @@
                         </button>
                     </div>
                 </form>
-
-                <!-- Added popular search suggestions -->
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-sm text-gray-600">Popular searches:</span>
-                    <a href="#"
-                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Education</a>
-                    <a href="#"
-                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Healthcare</a>
-                    <a href="#"
-                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Environment</a>
-                    <a href="#"
-                        class="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors">Poverty</a>
-                </div>
             </div>
         </section>
 
@@ -117,8 +104,8 @@
                             d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM12 18a2 2 0 11-4 0h4z"
                             clip-rule="evenodd" />
                     </svg>
-                    <h3 class="text-xl font-semibold text-gray-800">Secure Donations</h3>
-                    <p class="mt-2 text-gray-600">Support causes you care about with secure, integrated payment options for
+                    <h3 class="text-xl font-semibold text-gray-800">Donations</h3>
+                    <p class="mt-2 text-gray-600">Support causes you care about with integrated payment options for
                         one-time or recurring donations.</p>
                 </div>
 

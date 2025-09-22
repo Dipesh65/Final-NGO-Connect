@@ -1,6 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <!-- Create Post -->
+    @if (auth()->user()->isNgo())
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div class="flex justify-stretch items-center space-x-3 mb-4">
+                <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
+                <form id="post" action="{{ route('common.post.create') }}" class="items-center flex flex-row justify-between"
+                    method="POST">
+                    @csrf
+                </form>
+                <input form="post" type="text" name="description" placeholder="What's on your mind, {{ auth()->user()->name }}?"
+                    class="flex-1 bg-gray-100 rounded-full px-4 py-2 focus:outline-none hover:bg-gray-200 cursor-pointer">
+                <button form="post" type="submit"
+                    class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100">Create Post </button>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-gray-200">
+                <div class="flex space-x-4">
+
+                    <button class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-images text-green-500"></i>
+                        <span class="text-gray-600 font-medium">Photo/video</span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="min-h-screen bg-gray-50">
         <!-- Main Content -->
         <main class="w-full">
@@ -26,7 +54,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex items-center space-x-1">
+                                <div class="flex items-center space-x-2">
+                                    <!-- Added follow button for NGOs -->
+                                    <button data-user-id="{{ $post->user->id }}"
+                                        class="follow-button bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors text-sm">
+                                        <i class="fas fa-plus mr-1"></i>
+                                        Follow
+                                    </button>
+
                                     <!-- Added dropdown menu for post options -->
                                     <div class="relative">
                                         <button class="post-options-btn p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -306,7 +341,7 @@
                 @endforeach
                 ]@if(!$loop->last),@endif
             @endforeach
-                    };
+                        };
 
         $(document).ready(function () {
             $('.like-button').on('click', function () {
@@ -380,12 +415,19 @@
 
                     const commentReplies = replies.filter(reply => reply.parent_id === comment.id);
                     if (commentReplies.length > 0) {
-                        const repliesContainer = $(`<div class="replies-container hidden" data-comment-id="${comment.id}"></div>`);
-                        commentReplies.forEach(reply => {
-                            const replyElement = createReplyElement(reply);
-                            repliesContainer.append(replyElement);
-                        });
-                        $commentsList.append(repliesContainer);
+                        if (commentReplies.length === 1) {
+                            // Show single reply directly
+                            const replyElement = createReplyElement(commentReplies[0]);
+                            $commentsList.append(replyElement);
+                        } else {
+                            // Create hidden replies container for multiple replies
+                            const repliesContainer = $(`<div class="replies-container hidden" data-comment-id="${comment.id}"></div>`);
+                            commentReplies.forEach(reply => {
+                                const replyElement = createReplyElement(reply);
+                                repliesContainer.append(replyElement);
+                            });
+                            $commentsList.append(repliesContainer);
+                        }
                     }
                 });
             }
@@ -394,55 +436,56 @@
                 const avatarHtml = comment.user_avatar
                     ? `<img src="${comment.user_avatar}" alt="${comment.user_name}" class="w-8 h-8 rounded-full object-cover">`
                     : `<div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                     <i class="fas fa-user text-red-500 text-sm"></i>
-                                   </div>`;
+                                         <i class="fas fa-user text-red-500 text-sm"></i>
+                                       </div>`;
 
-                const replyCountHtml = comment.replies_count > 1
-                    ? `<button class="view-replies-btn text-sm text-gray-600 hover:text-gray-800 font-medium" data-comment-id="${comment.id}">
-                                     <i class="fas fa-chevron-down mr-1"></i>View all ${comment.replies_count} replies
-                                   </button>`
-                    : '';
+                let replyCountHtml = '';
+                if (comment.replies_count > 1) {
+                    replyCountHtml = `<button class="view-replies-btn text-sm text-red-600 hover:text-red-700 font-medium" data-comment-id="${comment.id}">
+                                         <i class="fas fa-chevron-down mr-1"></i>View all ${comment.replies_count} replies
+                                       </button>`;
+                }
 
                 return $(`
-                                <div class="flex space-x-3 mb-4">
-                                    ${avatarHtml}
-                                    <div class="flex-1">
-                                        <div class="bg-gray-100 rounded-lg px-3 py-2">
-                                            <p class="font-medium text-sm text-gray-900">${comment.user_name}</p>
-                                            <p class="text-gray-800">${comment.comment}</p>
+                                    <div class="flex space-x-3 mb-4">
+                                        ${avatarHtml}
+                                        <div class="flex-1">
+                                            <div class="bg-gray-100 rounded-lg px-3 py-2">
+                                                <p class="font-medium text-sm text-gray-900">${comment.user_name}</p>
+                                                <p class="text-gray-800">${comment.comment}</p>
+                                            </div>
+                                            <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                <span>${comment.created_at}</span>
+                                                <button class="reply-btn hover:text-gray-700" data-comment-id="${comment.id}" data-user-name="${comment.user_name}">Reply</button>
+                                            </div>
+                                            ${replyCountHtml}
                                         </div>
-                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                                            <span>${comment.created_at}</span>
-                                            <button class="reply-btn hover:text-gray-700" data-comment-id="${comment.id}" data-user-name="${comment.user_name}">Reply</button>
-                                        </div>
-                                        ${replyCountHtml}
                                     </div>
-                                </div>
-                            `);
+                                `);
             }
 
             function createReplyElement(reply) {
                 const avatarHtml = reply.user_avatar
                     ? `<img src="${reply.user_avatar}" alt="${reply.user_name}" class="w-7 h-7 rounded-full object-cover">`
                     : `<div class="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                     <i class="fas fa-user text-gray-500 text-xs"></i>
-                                   </div>`;
+                                         <i class="fas fa-user text-gray-500 text-xs"></i>
+                                       </div>`;
 
                 return $(`
-                                <div class="flex space-x-3 ml-11 mb-3">
-                                    ${avatarHtml}
-                                    <div class="flex-1">
-                                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-                                            <p class="font-medium text-sm text-gray-900">${reply.user_name}</p>
-                                            <p class="text-gray-700 text-sm">${reply.comment}</p>
-                                        </div>
-                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                                            <span>${reply.created_at}</span>
-                                            <button class="reply-btn hover:text-gray-700" data-comment-id="${reply.parent_id}" data-user-name="${reply.user_name}">Reply</button>
+                                    <div class="flex space-x-3 ml-11 mb-3">
+                                        ${avatarHtml}
+                                        <div class="flex-1">
+                                            <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+                                                <p class="font-medium text-sm text-gray-900">${reply.user_name}</p>
+                                                <p class="text-gray-700 text-sm">${reply.comment}</p>
+                                            </div>
+                                            <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                <span>${reply.created_at}</span>
+                                                <button class="reply-btn hover:text-gray-700" data-comment-id="${reply.parent_id}" data-user-name="${reply.user_name}">Reply</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            `);
+                                `);
             }
 
             function openCommentsModal() {
@@ -525,35 +568,34 @@
                             if (repliesContainer.length === 0) {
                                 // Create new replies container if it doesn't exist
                                 const parentCommentElement = $(`.reply-btn[data-comment-id="${replyToCommentId}"]`).closest('.flex.space-x-3.mb-4');
-                                repliesContainer = $(`<div class="replies-container hidden" data-comment-id="${replyToCommentId}"></div>`);
+                                repliesContainer = $(`<div class="replies-container" data-comment-id="${replyToCommentId}"></div>`);
                                 parentCommentElement.after(repliesContainer);
                             }
 
                             repliesContainer.append(newReply);
 
-                            // Show replies container if it's hidden
-                            if (repliesContainer.hasClass('hidden')) {
+                            // Show replies container if it's hidden and we now have multiple replies
+                            const totalReplies = repliesContainer.children().length;
+                            if (totalReplies === 1) {
+                                // First reply - show it directly, no button needed
                                 repliesContainer.removeClass('hidden');
-                            }
-
-                            // Update parent comment's reply count and view replies button
-                            const parentCommentElement = $(`.reply-btn[data-comment-id="${replyToCommentId}"]`).closest('.flex.space-x-3.mb-4');
-                            const viewRepliesBtn = parentCommentElement.find('.view-replies-btn');
-
-                            if (viewRepliesBtn.length) {
-                                const currentCount = parseInt(viewRepliesBtn.text().match(/\d+/)[0]);
-                                const newCount = currentCount + 1;
-                                viewRepliesBtn.html(`<i class="fas fa-chevron-up mr-1"></i>Hide ${newCount} replies`);
+                            } else if (totalReplies === 2) {
+                                // Second reply - hide container and add view button
+                                repliesContainer.addClass('hidden');
+                                const parentCommentElement = $(`.reply-btn[data-comment-id="${replyToCommentId}"]`).closest('.flex.space-x-3.mb-4');
+                                const viewRepliesHtml = `<button class="view-replies-btn text-sm text-red-600 hover:text-red-700 font-medium" data-comment-id="${replyToCommentId}"><i class="fas fa-chevron-down mr-1"></i>View all ${totalReplies} replies</button>`;
+                                parentCommentElement.find('.flex.items-center.space-x-4.mt-1').after(viewRepliesHtml);
                             } else {
-                                // Add view replies button if this is the second reply
-                                const existingReplies = repliesContainer.children().length;
-                                if (existingReplies >= 2) {
-                                    const viewRepliesHtml = `<button class="view-replies-btn text-sm text-gray-600 hover:text-gray-800 font-medium" data-comment-id="${replyToCommentId}"><i class="fas fa-chevron-up mr-1"></i>Hide ${existingReplies} replies</button>`;
-                                    parentCommentElement.find('.flex.items-center.space-x-4.mt-1').after(viewRepliesHtml);
+                                // More replies - update button text
+                                const viewRepliesBtn = $(`.view-replies-btn[data-comment-id="${replyToCommentId}"]`);
+                                if (repliesContainer.hasClass('hidden')) {
+                                    viewRepliesBtn.html(`<i class="fas fa-chevron-down mr-1"></i>View all ${totalReplies} replies`);
+                                } else {
+                                    viewRepliesBtn.html(`<i class="fas fa-chevron-up mr-1"></i>Hide ${totalReplies} replies`);
                                 }
                             }
                         } else {
-                            // This is a regular comment
+                            // Regular comment
                             const newComment = createCommentElement(newCommentData);
                             $('#commentsList').append(newComment);
                         }
@@ -594,7 +636,7 @@
                 }
             });
 
-            // Added reply button click handler
+            // Reply button click handler
             $(document).on('click', '.reply-btn', function () {
                 const commentId = $(this).data('comment-id');
                 const userName = $(this).data('user-name');
@@ -610,7 +652,7 @@
                 $('#modalCommentInput').attr('placeholder', `Reply to ${userName}...`).focus();
             });
 
-            // Added cancel reply functionality
+            // Cancel reply functionality
             $('#cancelReply').on('click', function () {
                 cancelReply();
             });
@@ -694,13 +736,13 @@
 
                 const showToast = (type, message) => {
                     const toast = $(`
-                                        <div class="fixed top-4 right-4 bg-${(type == "success") ? "green" : "red"}-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-                                            <div class="flex items-center space-x-2">
-                                                <i class="fas fa-check-circle"></i>
-                                                <span>${message}</span>
+                                            <div class="fixed top-4 right-4 bg-${(type == "success") ? "green" : "red"}-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+                                                <div class="flex items-center space-x-2">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    <span>${message}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    `);
+                                        `);
                     $('body').append(toast);
                     setTimeout(() => {
                         toast.fadeOut(300, function () {
@@ -722,12 +764,12 @@
                 });
 
                 if (reason == "other" && description == "") {
-                     showToast("error", "Please Enter Description");
+                    showToast("error", "Please Enter Description");
                     return;
                 }
 
                 $.ajax({
-                    url: "{{ route('common.post.report') }}", // You'll need to create this route
+                    url: "{{ route('common.post.report') }}",
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -743,7 +785,7 @@
                         closeReportModal();
 
                         // Show success message
-                         showToast("success", "Post reported successfully")
+                        showToast("success", "Post reported successfully")
                     },
                     error: function (xhr, status, error) {
                         console.log('  Report submission error:', {
@@ -752,7 +794,7 @@
                             responseText: xhr.responseText,
                             error: error
                         });
-                         showToast("error", xhr.responseJSON.message);
+                        showToast("error", xhr.responseJSON.message);
 
                         // alert('Failed to submit report. Please try again.');
                     }
@@ -766,7 +808,7 @@
                 }
             });
 
-            // Image modal functionality (keeping existing vanilla JS for now)
+            // Image modal functionality
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
             const closeModal = document.getElementById('closeModal');
@@ -868,6 +910,58 @@
                             break;
                     }
                 }
+            });
+
+            $(document).on('click', '.view-replies-btn', function () {
+                const commentId = $(this).data('comment-id');
+                const repliesContainer = $(`.replies-container[data-comment-id="${commentId}"]`);
+                const button = $(this);
+
+                if (repliesContainer.hasClass('hidden')) {
+                    // Show replies
+                    repliesContainer.removeClass('hidden');
+                    const replyCount = repliesContainer.children().length;
+                    button.html(`<i class="fas fa-chevron-up mr-1"></i>Hide ${replyCount} replies`);
+                } else {
+                    // Hide replies
+                    repliesContainer.addClass('hidden');
+                    const replyCount = repliesContainer.children().length;
+                    button.html(`<i class="fas fa-chevron-down mr-1"></i>View all ${replyCount} replies`);
+                }
+            });
+
+            $('.follow-button').on('click', function () {
+                const userId = $(this).data('user-id');
+                const $button = $(this);
+
+                $.ajax({
+                    url: "#", // ADD A user.follow route
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    data: JSON.stringify({
+                        user_id: userId
+                    }),
+                    success: function (data) {
+                        if (data.following) {
+                            // User is now following
+                            $button.removeClass('bg-red-500 hover:bg-red-600')
+                                .addClass('bg-gray-500 hover:bg-gray-600')
+                                .html('<i class="fas fa-check mr-1"></i>Following');
+                        } else {
+                            // User unfollowed
+                            $button.removeClass('bg-gray-500 hover:bg-gray-600')
+                                .addClass('bg-red-500 hover:bg-red-600')
+                                .html('<i class="fas fa-plus mr-1"></i>Follow');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Follow error:', error);
+                        alert('Failed to follow/unfollow user. Please try again.');
+                    }
+                });
             });
         });
     </script>
