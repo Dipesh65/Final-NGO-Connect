@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 // Registration
 Route::get('/ngo/register', [Auth\RegisterNgoController::class, 'showRegistrationForm'])->name('register.ngo');
-Route::post('/ngo/register', [Auth\RegisterNgoController::class, 'register']);
+Route::post('/ngo/register', [Auth\RegisterNgoController::class, 'register'])->name('register.ngo');
 
 Route::get('/people/register', [Auth\RegisterPeopleController::class, 'showRegistrationForm'])->name('register.people');
 Route::post('/people/register', [Auth\RegisterPeopleController::class, 'register']);

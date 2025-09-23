@@ -65,7 +65,6 @@
                 <form method="POST" action="{{ route('register.ngo') }}" enctype="multipart/form-data"
                     id="ngoRegistrationForm">
                     @csrf
-
                     <!-- Step 1: Basic Details -->
                     <div id="step1" class="step-content">
                         <div class="bg-blue-50 border border-blue-200 text-blue-700 p-4 mb-6 rounded-lg">
@@ -97,20 +96,38 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="space-y-2">
-                                    <label for="sector" class="block text-lg font-medium text-gray-700">Sector or Category
+                                    <label for="category" class="block text-lg font-medium text-gray-700">Category
                                         *</label>
-                                    <input type="text" name="sector" id="sector" value="{{ old('sector') }}"
+                                    <input type="text" name="category" id="category" value="{{ old('category') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                         placeholder="e.g., Education, Health, Environment" required>
                                 </div>
 
                                 <div class="space-y-2">
+                                    <label for="subcategory"
+                                        class="block text-lg font-medium text-gray-700">Subcategory</label>
+                                    <input type="text" name="subcategory" id="subcategory"
+                                        value="{{ old('subcategory') }}"
+                                        class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                        placeholder="e.g., Child Education, Mental Health">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
                                     <label for="address" class="block text-lg font-medium text-gray-700">Address *</label>
-                                    <input tyoe="text" name="address" id="address" value="{{ old('address') }}"
+                                    <input type="text" name="address" id="address" value="{{ old('address') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                         placeholder="Enter complete address" required>
                                 </div>
 
+                                <div class="space-y-2">
+                                    <label for="phone" class="block text-lg font-medium text-gray-700">Phone Number
+                                        *</label>
+                                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                                        class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                        placeholder="Enter phone number" required>
+                                </div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -123,12 +140,38 @@
                                 </div>
 
                                 <div class="space-y-2">
-                                    <label for="phone" class="block text-lg font-medium text-gray-700">Phone Number
+                                    <label for="password" class="block text-lg font-medium text-gray-700">Password
                                         *</label>
-                                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                                    <input type="password" name="password" id="password" value="{{ old('password') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
-                                        placeholder="Enter phone number" required>
+                                        placeholder="Enter password" required>
                                 </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
+                                    <label for="password_confirmation"
+                                        class="block text-lg font-medium text-gray-700">Confirm Password
+                                        *</label>
+                                    <input type="password" name="password_confirmation" id="password_confirmation"
+                                        class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                        placeholder="Confirm password" required>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="logo" class="block text-lg font-medium text-gray-700">NGO Logo</label>
+                                    <input type="file" name="logo" id="logo"
+                                        class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                        accept="image/jpeg,image/png">
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="photos" class="block text-lg font-medium text-gray-700">Photos (up to
+                                    5)</label>
+                                <input type="file" name="photos[]" id="photos" multiple
+                                    class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                    accept="image/jpeg,image/png">
                             </div>
 
                             <div class="space-y-2">
@@ -173,7 +216,6 @@
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
                                 <div class="space-y-2">
                                     <label for="last_renewal_date" class="block text-lg font-medium text-gray-700">Last
                                         Renewal Date *</label>
@@ -186,7 +228,8 @@
                                 <div class="space-y-2">
                                     <label for="pan_number" class="block text-lg font-medium text-gray-700">PAN Number
                                         *</label>
-                                    <input type="text" name="pan_number" id="pan_number" value="{{ old('pan_number') }}"
+                                    <input type="text" name="pan_number" id="pan_number"
+                                        value="{{ old('pan_number') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                         placeholder="Enter PAN number" required>
                                 </div>
@@ -207,7 +250,8 @@
                         <div class="space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="space-y-2">
-                                    <label for="contact_full_name" class="block text-lg font-medium text-gray-700">Full Name
+                                    <label for="contact_full_name" class="block text-lg font-medium text-gray-700">Full
+                                        Name
                                         *</label>
                                     <input type="text" name="contact_full_name" id="contact_full_name"
                                         value="{{ old('contact_full_name') }}"
@@ -216,8 +260,8 @@
                                 </div>
 
                                 <div class="space-y-2">
-                                    <label for="contact_position" class="block text-lg font-medium text-gray-700">Position /
-                                        Role in NGO *</label>
+                                    <label for="contact_position" class="block text-lg font-medium text-gray-700">Position
+                                        / Role in NGO *</label>
                                     <input type="text" name="contact_position" id="contact_position"
                                         value="{{ old('contact_position') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
@@ -227,7 +271,8 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="space-y-2">
-                                    <label for="contact_phone" class="block text-lg font-medium text-gray-700">Phone Number
+                                    <label for="contact_phone" class="block text-lg font-medium text-gray-700">Phone
+                                        Number
                                         *</label>
                                     <input type="tel" name="contact_phone" id="contact_phone"
                                         value="{{ old('contact_phone') }}"
@@ -236,7 +281,8 @@
                                 </div>
 
                                 <div class="space-y-2">
-                                    <label for="contact_email" class="block text-lg font-medium text-gray-700">Email Address
+                                    <label for="contact_email" class="block text-lg font-medium text-gray-700">Email
+                                        Address
                                         *</label>
                                     <input type="email" name="contact_email" id="contact_email"
                                         value="{{ old('contact_email') }}"
@@ -245,9 +291,32 @@
                                 </div>
                             </div>
 
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
+                                    <label for="contact_password" class="block text-lg font-medium text-gray-700">Password
+                                        *</label>
+                                    <input type="password" name="contact_password" id="contact_password"
+                                        value="{{ old('contact_password') }}"
+                                        class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                        placeholder="Enter contact person's password" required>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="contact_password_confirmation"
+                                        class="block text-lg font-medium text-gray-700">Confirm Password
+                                        *</label>
+                                    <input type="password" name="contact_password_confirmation"
+                                        id="contact_password_confirmation"
+                                        class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
+                                        placeholder="Confirm contact person's password" required>
+                                </div>
+                            </div>
+
                             <div class="space-y-2">
-                                <label for="address" class="block text-lg font-medium text-gray-700">Address *</label>
-                                <input tyoe="text" name="address" id="address" value="{{ old('address') }}"
+                                <label for="contact_address" class="block text-lg font-medium text-gray-700">Address
+                                    *</label>
+                                <input type="text" name="contact_address" id="contact_address"
+                                    value="{{ old('contact_address') }}"
                                     class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                     placeholder="Enter contact person's address" required>
                             </div>
@@ -298,8 +367,6 @@
                                 Submit Registration
                             </button>
                         </div>
-
-
                     </div>
                 </form>
             </div>
@@ -308,7 +375,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let currentStep = 1;
             const totalSteps = 3;
 
@@ -316,14 +383,16 @@
                 // Hide all steps
                 for (let i = 1; i <= totalSteps; i++) {
                     $(`#step${i}`).addClass('hidden');
-                    $(`#step${i}-indicator`).removeClass('bg-red-500 text-white').addClass('bg-gray-300 text-gray-500');
+                    $(`#step${i}-indicator`).removeClass('bg-red-500 text-white').addClass(
+                        'bg-gray-300 text-gray-500');
                     $(`#step${i}-text`).removeClass('text-red-500').addClass('text-gray-500');
                 }
 
                 // Show current step
                 $(`#step${step}`).removeClass('hidden');
-                $(`#step${step}-indicator`).removeClass('bg-gray-300 text-gray-500').addClass('bg-red-500 text-white');
-                $(`#step${step}-text`).removeClass('text-gray-500').addClass('text-red-500');
+                $(`#step${i}-indicator`).removeClass('bg-gray-300 text-gray-500').addClass(
+                    'bg-red-500 text-white');
+                $(`#step${i}-text`).removeClass('text-gray-500').addClass('text-red-500');
 
                 // Update progress bars
                 for (let i = 1; i < step; i++) {
@@ -367,10 +436,70 @@
                         return false;
                     }
                 }
+
+                // Additional password validation for Step 1
+                if (step === 1) {
+                    const password = $('#password').val();
+                    const passwordConfirmation = $('#password_confirmation').val();
+                    if (password !== passwordConfirmation) {
+                        $('#password_confirmation').focus();
+                        alert('Passwords do not match.');
+                        return false;
+                    }
+
+                    // Validate logo file
+                    const logo = $('#logo')[0].files[0];
+                    if (logo) {
+                        const validImageTypes = ['image/jpeg', 'image/png'];
+                        if (!validImageTypes.includes(logo.type)) {
+                            $('#logo').focus();
+                            alert('Logo must be a JPEG or PNG file.');
+                            return false;
+                        }
+                        if (logo.size > 2 * 1024 * 1024) { // 2MB
+                            $('#logo').focus();
+                            alert('Logo file size must not exceed 2MB.');
+                            return false;
+                        }
+                    }
+
+                    // Validate photos (up to 5)
+                    const photos = $('#photos')[0].files;
+                    if (photos.length > 5) {
+                        $('#photos').focus();
+                        alert('You can upload a maximum of 5 photos.');
+                        return false;
+                    }
+                    for (let i = 0; i < photos.length; i++) {
+                        const validImageTypes = ['image/jpeg', 'image/png'];
+                        if (!validImageTypes.includes(photos[i].type)) {
+                            $('#photos').focus();
+                            alert('Photos must be JPEG or PNG files.');
+                            return false;
+                        }
+                        if (photos[i].size > 2 * 1024 * 1024) { // 2MB
+                            $('#photos').focus();
+                            alert('Each photo file size must not exceed 2MB.');
+                            return false;
+                        }
+                    }
+                }
+
+                // Additional password validation for Step 3
+                if (step === 3) {
+                    const contactPassword = $('#contact_password').val();
+                    const contactPasswordConfirmation = $('#contact_password_confirmation').val();
+                    if (contactPassword !== contactPasswordConfirmation) {
+                        $('#contact_password_confirmation').focus();
+                        alert('Contact person passwords do not match.');
+                        return false;
+                    }
+                }
+
                 return true;
             }
 
-            $('#nextBtn').on('click', function () {
+            $('#nextBtn').on('click', function() {
                 if (validateStep(currentStep)) {
                     if (currentStep < totalSteps) {
                         currentStep++;
@@ -379,7 +508,7 @@
                 }
             });
 
-            $('#prevBtn').on('click', function () {
+            $('#prevBtn').on('click', function() {
                 if (currentStep > 1) {
                     currentStep--;
                     showStep(currentStep);
@@ -387,7 +516,7 @@
             });
 
             // AJAX form submission
-            $('#ngoRegistrationForm').on('submit', function (e) {
+            $('#ngoRegistrationForm').on('submit', function(e) {
                 e.preventDefault();
 
                 if (!validateStep(currentStep)) {
@@ -402,27 +531,29 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $('#submitBtn').prop('disabled', true).text('Submitting...');
                     },
-                    success: function (response) {
+                    success: function(response) {
                         alert('NGO registration submitted successfully!');
                         window.location.href = response.redirect || '/';
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         $('#submitBtn').prop('disabled', false).text('Submit Registration');
 
                         if (xhr.status === 422) {
                             const errors = xhr.responseJSON.errors;
                             let errorMessage = 'Please fix the following errors:\n';
 
-                            $.each(errors, function (field, messages) {
+                            $.each(errors, function(field, messages) {
                                 errorMessage += '- ' + messages.join(', ') + '\n';
                             });
 
                             alert(errorMessage);
                         } else {
-                            alert('An error occurred while submitting the form. Please try again.');
+                            alert(
+                                'An error occurred while submitting the form. Please try again.'
+                            );
                         }
                     }
                 });
