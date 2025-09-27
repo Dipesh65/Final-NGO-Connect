@@ -106,8 +106,7 @@
                                 <div class="space-y-2">
                                     <label for="subcategory"
                                         class="block text-lg font-medium text-gray-700">Subcategory</label>
-                                    <input type="text" name="subcategory" id="subcategory"
-                                        value="{{ old('subcategory') }}"
+                                    <input type="text" name="subcategory" id="subcategory" value="{{ old('subcategory') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                         placeholder="e.g., Child Education, Mental Health">
                                 </div>
@@ -228,8 +227,7 @@
                                 <div class="space-y-2">
                                     <label for="pan_number" class="block text-lg font-medium text-gray-700">PAN Number
                                         *</label>
-                                    <input type="text" name="pan_number" id="pan_number"
-                                        value="{{ old('pan_number') }}"
+                                    <input type="text" name="pan_number" id="pan_number" value="{{ old('pan_number') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                         placeholder="Enter PAN number" required>
                                 </div>
@@ -375,7 +373,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let currentStep = 1;
             const totalSteps = 3;
 
@@ -383,16 +381,14 @@
                 // Hide all steps
                 for (let i = 1; i <= totalSteps; i++) {
                     $(`#step${i}`).addClass('hidden');
-                    $(`#step${i}-indicator`).removeClass('bg-red-500 text-white').addClass(
-                        'bg-gray-300 text-gray-500');
+                    $(`#step${i}-indicator`).removeClass('bg-red-500 text-white').addClass('bg-gray-300 text-gray-500');
                     $(`#step${i}-text`).removeClass('text-red-500').addClass('text-gray-500');
                 }
 
                 // Show current step
                 $(`#step${step}`).removeClass('hidden');
-                $(`#step${i}-indicator`).removeClass('bg-gray-300 text-gray-500').addClass(
-                    'bg-red-500 text-white');
-                $(`#step${i}-text`).removeClass('text-gray-500').addClass('text-red-500');
+                $(`#step${step}-indicator`).removeClass('bg-gray-300 text-gray-500').addClass('bg-red-500 text-white');
+                $(`#step${step}-text`).removeClass('text-gray-500').addClass('text-red-500');
 
                 // Update progress bars
                 for (let i = 1; i < step; i++) {
@@ -407,12 +403,6 @@
                     $('#prevBtn').addClass('hidden');
                 } else {
                     $('#prevBtn').removeClass('hidden');
-                }
-
-                if (step === 2 || step === 3) {
-                    $('#signinBtn').addClass('hidden');
-                } else {
-                    $('#signinBtn').removeClass('hidden');
                 }
 
                 if (step === totalSteps) {
@@ -436,70 +426,10 @@
                         return false;
                     }
                 }
-
-                // Additional password validation for Step 1
-                if (step === 1) {
-                    const password = $('#password').val();
-                    const passwordConfirmation = $('#password_confirmation').val();
-                    if (password !== passwordConfirmation) {
-                        $('#password_confirmation').focus();
-                        alert('Passwords do not match.');
-                        return false;
-                    }
-
-                    // Validate logo file
-                    const logo = $('#logo')[0].files[0];
-                    if (logo) {
-                        const validImageTypes = ['image/jpeg', 'image/png'];
-                        if (!validImageTypes.includes(logo.type)) {
-                            $('#logo').focus();
-                            alert('Logo must be a JPEG or PNG file.');
-                            return false;
-                        }
-                        if (logo.size > 2 * 1024 * 1024) { // 2MB
-                            $('#logo').focus();
-                            alert('Logo file size must not exceed 2MB.');
-                            return false;
-                        }
-                    }
-
-                    // Validate photos (up to 5)
-                    const photos = $('#photos')[0].files;
-                    if (photos.length > 5) {
-                        $('#photos').focus();
-                        alert('You can upload a maximum of 5 photos.');
-                        return false;
-                    }
-                    for (let i = 0; i < photos.length; i++) {
-                        const validImageTypes = ['image/jpeg', 'image/png'];
-                        if (!validImageTypes.includes(photos[i].type)) {
-                            $('#photos').focus();
-                            alert('Photos must be JPEG or PNG files.');
-                            return false;
-                        }
-                        if (photos[i].size > 2 * 1024 * 1024) { // 2MB
-                            $('#photos').focus();
-                            alert('Each photo file size must not exceed 2MB.');
-                            return false;
-                        }
-                    }
-                }
-
-                // Additional password validation for Step 3
-                if (step === 3) {
-                    const contactPassword = $('#contact_password').val();
-                    const contactPasswordConfirmation = $('#contact_password_confirmation').val();
-                    if (contactPassword !== contactPasswordConfirmation) {
-                        $('#contact_password_confirmation').focus();
-                        alert('Contact person passwords do not match.');
-                        return false;
-                    }
-                }
-
                 return true;
             }
 
-            $('#nextBtn').on('click', function() {
+            $('#nextBtn').on('click', function () {
                 if (validateStep(currentStep)) {
                     if (currentStep < totalSteps) {
                         currentStep++;
@@ -508,7 +438,7 @@
                 }
             });
 
-            $('#prevBtn').on('click', function() {
+            $('#prevBtn').on('click', function () {
                 if (currentStep > 1) {
                     currentStep--;
                     showStep(currentStep);
@@ -516,7 +446,7 @@
             });
 
             // AJAX form submission
-            $('#ngoRegistrationForm').on('submit', function(e) {
+            $('#ngoRegistrationForm').on('submit', function (e) {
                 e.preventDefault();
 
                 if (!validateStep(currentStep)) {
@@ -531,29 +461,27 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('#submitBtn').prop('disabled', true).text('Submitting...');
                     },
-                    success: function(response) {
+                    success: function (response) {
                         alert('NGO registration submitted successfully!');
                         window.location.href = response.redirect || '/';
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $('#submitBtn').prop('disabled', false).text('Submit Registration');
 
                         if (xhr.status === 422) {
                             const errors = xhr.responseJSON.errors;
                             let errorMessage = 'Please fix the following errors:\n';
 
-                            $.each(errors, function(field, messages) {
+                            $.each(errors, function (field, messages) {
                                 errorMessage += '- ' + messages.join(', ') + '\n';
                             });
 
                             alert(errorMessage);
                         } else {
-                            alert(
-                                'An error occurred while submitting the form. Please try again.'
-                            );
+                            alert('An error occurred while submitting the form. Please try again.');
                         }
                     }
                 });

@@ -43,14 +43,14 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:0')->prefix('admin')->group(function () {
 
-        Route::get('/ngos', [Admin\AdminController::class, 'ngos'])->name('admin.ngos');
+        // Route::get('/ngos', [Admin\AdminController::class, 'ngos'])->name('admin.ngos');
         Route::get('/ngos/{id}', [Admin\AdminController::class, 'show'])->name('admin.ngos.show');
         Route::post('/ngos/{id}/verify', [Admin\AdminController::class, 'verifyNgo'])->name('admin.ngos.verify');
         Route::post('/ngos/{id}/reject', [Admin\AdminController::class, 'rejectNgo'])->name('admin.ngos.reject');
 
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/ngos', [Admin\AdminController::class, 'showNgos'])->name('admin.ngos');
+
     });
 
     // NGO routes

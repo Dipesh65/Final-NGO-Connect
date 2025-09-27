@@ -10,19 +10,26 @@ class Ngo extends Model
     use Notifiable;
 
     protected $fillable = [
-        'name',
-        'mission',
-        'description',
-        'location',
-        'logo',
-        'category',
-        'subcategory',
-        'user_id',
-    ];
+    'user_id',
+    'ngo_name',
+    'registration_date',
+    'category',
+    'subcategory',
+    'address',
+    'phone',
+    'registration_number',
+    'registration_district',
+    'last_renewal_date',
+    'pan_number',
+    'mission',
+    'contact_position',
+    'description',
+    'logo',
+];
 
-    protected $casts = [
-        'photos' => 'array',
-    ];
+protected $casts = [
+    'photos' => 'array',
+];
 
     public function user()
     {

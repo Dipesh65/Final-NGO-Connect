@@ -23,7 +23,7 @@
     </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-50">
     <!-- Header -->
     @if (!auth()->user()->isAdmin())
         @include('layouts.partials.header')

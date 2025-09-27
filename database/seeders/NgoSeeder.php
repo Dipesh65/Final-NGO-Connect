@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ngo;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class NgoSeeder extends Seeder
 {
@@ -14,22 +13,47 @@ class NgoSeeder extends Seeder
      */
     public function run(): void
     {
-        // Find the NGO user created in UserSeeder
-        $ngoUser = User::where('email', 'ngo@ngo.com')->first();
-
-        if ($ngoUser) {
-            Ngo::create([
-                'user_id' => $ngoUser->id,
-                'mission' => 'Empowering communities through education and sustainability.',
-                'description' => 'Sample NGO is dedicated to improving lives through education, environmental initiatives, and community support.',
-                'location' => 'Kathmandu, Nepal',
-                'photos' => json_encode([
-                    '/images/ngo/sample1.jpg',
-                    '/images/ngo/sample2.jpg',
-                ]),
+        DB::table('ngos')->insert([
+            [
+                'user_id' => 1,
+                'ngo_name' => 'Nepal Education Foundation',
+                'registration_date' => '2010-03-15',
                 'category' => 'Education',
-                'subcategory' => 'Community Development',
-            ]);
-        }
+                'address' => 'Kathmandu, Nepal',
+                'phone' => '+977-9851000001',
+                'registration_number' => 'DAO-12345',
+                'registration_district' => 'Kathmandu',
+                'last_renewal_date' => '2024-01-05',
+                'pan_number' => 'PAN1234567',
+                'mission' => 'To improve education access in rural Nepal.',
+                'description' => 'We run schools, provide scholarships, and train teachers in remote regions.',
+                'photos' => json_encode(['photos/ngo1_1.jpg', 'photos/ngo1_2.jpg']),
+                'contact_position' => 'Executive Director',
+                'subcategory' => 'Child Education',
+                'logo' => 'logos/ngo1.png',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'user_id' => 2,
+                'ngo_name' => 'Healthy Nepal Initiative',
+                'registration_date' => '2015-07-20',
+                'category' => 'Health',
+                'address' => 'Pokhara, Nepal',
+                'phone' => '+977-9851000002',
+                'registration_number' => 'DAO-67890',
+                'registration_district' => 'Kaski',
+                'last_renewal_date' => '2023-12-15',
+                'pan_number' => 'PAN9876543',
+                'mission' => 'Promoting health and wellness for all.',
+                'description' => 'We provide free health camps, awareness programs, and mobile clinics.',
+                'photos' => json_encode(['photos/ngo2_1.jpg']),
+                'contact_position' => 'Program Manager',
+                'subcategory' => 'Community Health',
+                'logo' => 'logos/ngo2.png',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ]);
     }
 }

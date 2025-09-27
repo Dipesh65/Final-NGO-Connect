@@ -23,29 +23,30 @@ class RegisterNgoController extends Controller
     public function register(Request $request)
     {
         // Validation rules
-        // $validator = Validator::make($request->all(), [
-        //     'ngo_name' => ['required', 'string', 'max:255'],
-        //     'registration_date' => ['required', 'date'],
-        //     'category' => ['required', 'string', 'max:255'],
-        //     'subcategory' => ['nullable', 'string', 'max:255'],
-        //     'address' => ['required', 'string', 'max:255'],
-        //     'phone' => ['required', 'string', 'max:20', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
-        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
-        //     'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
-        //     'photos.*' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
-        //     'registration_number' => ['required', 'string', 'max:255'],
-        //     'registration_district' => ['required', 'string', 'max:255'],
-        //     'last_renewal_date' => ['required', 'date'],
-        //     'pan_number' => ['required', 'string', 'size:10', 'regex:/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/'],
-        //     'contact_full_name' => ['required', 'string', 'max:255'],
-        //     'contact_position' => ['required', 'string', 'max:255'],
-        //     'contact_phone' => ['required', 'string', 'max:20', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
-        //     'contact_email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-        //     'contact_password' => ['required', 'string', 'min:8', 'confirmed'],
-        //     'contact_address' => ['required', 'string', 'max:255'],
-        //     'declaration' => ['required', 'accepted'],
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'ngo_name' => ['required', 'string', 'max:255'],
+            'registration_date' => ['required', 'date'],
+            'category' => ['required', 'string', 'max:255'],
+            'subcategory' => ['nullable', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'photos.*' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'registration_number' => ['required', 'string', 'max:255'],
+            'registration_district' => ['required', 'string', 'max:255'],
+            'last_renewal_date' => ['required', 'date'],
+            'pan_number' => ['required', 'string'],
+            'contact_full_name' => ['required', 'string', 'max:255'],
+            'contact_position' => ['nullable','string', 'max:255'],
+            'contact_phone' => ['required', 'string', 'max:20'],
+            'contact_email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'contact_password' => ['required', 'string', 'min:8', 'confirmed'],
+            'contact_address' => ['required', 'string', 'max:255'],
+            'declaration' => ['nullable','required', 'accepted'],
+            'mission' => ['nullable','string','max:255']
+        ]);
 
         if ($validator->fails()) {
             return response()->json([
@@ -75,7 +76,7 @@ class RegisterNgoController extends Controller
                     'name' => $request->contact_full_name,
                     'email' => $request->contact_email,
                     'password' => Hash::make($request->contact_password),
-                    'role_id' => 2, // Assuming 2 is for people
+                    'role_id' => 2, // Role 2 is for contact persons
                     'verified' => false,
                 ]);
 
@@ -84,7 +85,7 @@ class RegisterNgoController extends Controller
                     'name' => $request->ngo_name,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
-                    'role_id' => 3, // Assuming 3 is for NGOs
+                    'role_id' => 1, // Role 1 is for NGOs
                     'owner_id' => $contactUser->id,
                     'verified' => false,
                 ]);
@@ -104,19 +105,19 @@ class RegisterNgoController extends Controller
                     'pan_number' => $request->pan_number,
                     'mission' => $request->mission,
                     'contact_position' => $request->contact_position,
-                    'description' => null, // Optional field
+                    'description' => null,
                     'photos' => $photoPaths ? json_encode($photoPaths) : null,
                     'logo' => $logoPath,
                 ]);
 
                 // Send welcome email to contact person with NGO details
-                Mail::to($contactUser->email)->send(new WelcomeMail($contactUser, $ngo));
+                // Mail::to($contactUser->email)->send(new WelcomeMail($contactUser, $ngo));
 
-                return [
-                    'contact_user' => $contactUser,
-                    'ngo_user' => $ngoUser,
-                    'ngo' => $ngo,
-                ];
+                // return [
+                //     'contact_user' => $contactUser,
+                //     'ngo_user' => $ngoUser,
+                //     'ngo' => $ngo,
+                // ];
             });
 
             return response()->json([
