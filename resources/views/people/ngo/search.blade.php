@@ -29,7 +29,7 @@
                 </div>
                 <div class="flex items-end space-x-2">
                     <button type="submit"
-                        class="flex-1 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        class="flex-1 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500" id="searchBtn">
                         <span class="iconify inline mr-2" data-icon="fluent:search-20-filled" data-width="20"
                             data-height="20"></span>
                         Search
@@ -149,6 +149,10 @@
             $('#subcategory').on('change', function() {
                 $('#searchForm').submit();
             });
+
+            // $('#searchBtn').on('click',function(){
+            //     $('#searchForm').submit();
+            // });
         });
     </script>
 @endpush

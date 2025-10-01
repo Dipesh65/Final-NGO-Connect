@@ -13,12 +13,11 @@ class NgoSearchController extends Controller
         $query = Ngo::query();
 
         if ($request->filled('name')) {
-            $query->with('user',function($q)use($request){
-                $q->where('name', 'like', '%' . $request->name . '%');});
+                $query->where('ngo_name', 'like', '%' . $request->name . '%');
         }
 
         if ($request->filled('location')) {
-            $query->where('location', 'like', '%' . $request->location . '%');
+            $query->where('address', 'like', '%' . $request->location . '%');
         }
 
         if ($request->filled('category')) {

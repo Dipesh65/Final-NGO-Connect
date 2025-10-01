@@ -51,6 +51,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/ngos', [Admin\AdminController::class, 'showNgos'])->name('admin.ngos');
 
+        // Routes related to logs
+        Route::get('/log', [Admin\LogController::class, 'showLog'])->name('admin.log');
+
     });
 
     // NGO routes

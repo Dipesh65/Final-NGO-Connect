@@ -60,7 +60,6 @@ class NgoController extends Controller
     }
 
 
-
     public function volunteers()
     {
         // Placeholder for volunteers listing

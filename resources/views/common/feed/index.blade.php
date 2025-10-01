@@ -45,35 +45,33 @@
                                         <i class="fas fa-hands-helping text-red-500"></i>
                                     </div>
                                     <div>
-                                        <h3 class="font-bold text-gray-900">{{ $post->user->name }}</h3>
+                                        <div class="flex items-center">
+                                            <h3 class="font-bold text-gray-900">{{ $post->user->name }}</h3>
+                                            <span class="ml-1 mr-1 text-gray-500">•</span>
+                                            <!-- Follow button-->
+                                            <button data-user-id="{{ $post->user->id }}"
+                                                class="follow-button text-red-500 font-medium text-md hover:underline cursor-pointer">
+                                                Follow
+                                            </button>
+                                        </div>
                                         <div class="flex items-center space-x-2 text-sm text-gray-500">
                                             <span>{{ $post->created_at->diffForHumans() }}</span>
-                                            <span>•</span>
-                                            <i class="fas fa-globe-americas"></i>
-                                            <span>Public</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <!-- Added follow button for NGOs -->
-                                    <button data-user-id="{{ $post->user->id }}"
-                                        class="follow-button bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition-colors text-sm">
-                                        <i class="fas fa-plus mr-1"></i>
-                                        Follow
-                                    </button>
-
-                                    <!-- Added dropdown menu for post options -->
+                                    <!-- Dropdown menu for post options -->
                                     <div class="relative">
                                         <button class="post-options-btn p-2 hover:bg-gray-100 rounded-full transition-colors"
                                             data-post-id="{{ $post->id }}">
-                                            <i class="fas fa-ellipsis-h text-gray-400"></i>
+                                            <i class="fas fa-ellipsis-h text-gray-400 cursor-pointer"></i>
                                         </button>
                                         <!-- Dropdown Menu -->
                                         <div class="post-options-dropdown hidden absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10"
                                             data-post-id="{{ $post->id }}">
-                                            <div class="py-1">
+                                            <div class="py-1 w-full">
                                                 <button
-                                                    class="report-post-btn w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                                                    class="report-post-btn w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 whitespace-nowrap"
                                                     data-post-id="{{ $post->id }}">
                                                     <i class="fas fa-flag text-red-500"></i>
                                                     <span>Report Post</span>
@@ -155,12 +153,12 @@
                             <!-- Action Buttons -->
                             <div class="flex items-center space-x-1">
                                 <button data="{{ $post->id }}"
-                                    class="like-button flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                                    class="like-button flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
                                     <i class="far fa-heart text-gray-600"></i>
                                     <span class="text-gray-600 font-medium">Like</span>
                                 </button>
                                 <button data="{{ $post->id }}"
-                                    class="comment-button flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                                    class="comment-button flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
                                     <i class="far fa-comment text-gray-600"></i>
                                     <span class="text-gray-600 font-medium">Comment</span>
                                 </button>
@@ -225,7 +223,7 @@
 
         <!-- Comment Input -->
         <div class="p-4 border-t border-gray-200 flex-shrink-0">
-            <!-- Added reply indicator section -->
+            <!-- Reply indicator section -->
             <div id="replyIndicator" class="hidden mb-3 p-2 bg-blue-50 rounded-lg border border-blue-200">
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-blue-700">
@@ -320,7 +318,7 @@
         let currentPostId = null;
         let currentPostImages = [];
         let currentImageIndex = 0;
-        // Added variables to track reply state
+        // Variables to track reply state
         let replyToCommentId = null;
         let replyToUserName = null;
         let currentReportPostId = null;
@@ -341,7 +339,7 @@
                 @endforeach
                 ]@if(!$loop->last),@endif
             @endforeach
-                        };
+                                    };
 
         $(document).ready(function () {
             $('.like-button').on('click', function () {
@@ -436,56 +434,56 @@
                 const avatarHtml = comment.user_avatar
                     ? `<img src="${comment.user_avatar}" alt="${comment.user_name}" class="w-8 h-8 rounded-full object-cover">`
                     : `<div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                         <i class="fas fa-user text-red-500 text-sm"></i>
-                                       </div>`;
+                                                     <i class="fas fa-user text-red-500 text-sm"></i>
+                                                   </div>`;
 
                 let replyCountHtml = '';
                 if (comment.replies_count > 1) {
                     replyCountHtml = `<button class="view-replies-btn text-sm text-red-600 hover:text-red-700 font-medium" data-comment-id="${comment.id}">
-                                         <i class="fas fa-chevron-down mr-1"></i>View all ${comment.replies_count} replies
-                                       </button>`;
+                                                     <i class="fas fa-chevron-down mr-1"></i>View all ${comment.replies_count} replies
+                                                   </button>`;
                 }
 
                 return $(`
-                                    <div class="flex space-x-3 mb-4">
-                                        ${avatarHtml}
-                                        <div class="flex-1">
-                                            <div class="bg-gray-100 rounded-lg px-3 py-2">
-                                                <p class="font-medium text-sm text-gray-900">${comment.user_name}</p>
-                                                <p class="text-gray-800">${comment.comment}</p>
-                                            </div>
-                                            <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                                                <span>${comment.created_at}</span>
-                                                <button class="reply-btn hover:text-gray-700" data-comment-id="${comment.id}" data-user-name="${comment.user_name}">Reply</button>
-                                            </div>
-                                            ${replyCountHtml}
-                                        </div>
-                                    </div>
-                                `);
+                                                <div class="flex space-x-3 mb-4">
+                                                    ${avatarHtml}
+                                                    <div class="flex-1">
+                                                        <div class="bg-gray-100 rounded-lg px-3 py-2">
+                                                            <p class="font-medium text-sm text-gray-900">${comment.user_name}</p>
+                                                            <p class="text-gray-800">${comment.comment}</p>
+                                                        </div>
+                                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                            <span>${comment.created_at}</span>
+                                                            <button class="reply-btn hover:text-gray-700" data-comment-id="${comment.id}" data-user-name="${comment.user_name}">Reply</button>
+                                                        </div>
+                                                        ${replyCountHtml}
+                                                    </div>
+                                                </div>
+                                            `);
             }
 
             function createReplyElement(reply) {
                 const avatarHtml = reply.user_avatar
                     ? `<img src="${reply.user_avatar}" alt="${reply.user_name}" class="w-7 h-7 rounded-full object-cover">`
                     : `<div class="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                         <i class="fas fa-user text-gray-500 text-xs"></i>
-                                       </div>`;
+                                                     <i class="fas fa-user text-gray-500 text-xs"></i>
+                                                   </div>`;
 
                 return $(`
-                                    <div class="flex space-x-3 ml-11 mb-3">
-                                        ${avatarHtml}
-                                        <div class="flex-1">
-                                            <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-                                                <p class="font-medium text-sm text-gray-900">${reply.user_name}</p>
-                                                <p class="text-gray-700 text-sm">${reply.comment}</p>
-                                            </div>
-                                            <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                                                <span>${reply.created_at}</span>
-                                                <button class="reply-btn hover:text-gray-700" data-comment-id="${reply.parent_id}" data-user-name="${reply.user_name}">Reply</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `);
+                                                <div class="flex space-x-3 ml-11 mb-3">
+                                                    ${avatarHtml}
+                                                    <div class="flex-1">
+                                                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+                                                            <p class="font-medium text-sm text-gray-900">${reply.user_name}</p>
+                                                            <p class="text-gray-700 text-sm">${reply.comment}</p>
+                                                        </div>
+                                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                            <span>${reply.created_at}</span>
+                                                            <button class="reply-btn hover:text-gray-700" data-comment-id="${reply.parent_id}" data-user-name="${reply.user_name}">Reply</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `);
             }
 
             function openCommentsModal() {
@@ -736,13 +734,13 @@
 
                 const showToast = (type, message) => {
                     const toast = $(`
-                                            <div class="fixed top-4 right-4 bg-${(type == "success") ? "green" : "red"}-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-                                                <div class="flex items-center space-x-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                    <span>${message}</span>
-                                                </div>
-                                            </div>
-                                        `);
+                                                        <div class="fixed top-4 right-4 bg-${(type == "success") ? "green" : "red"}-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+                                                            <div class="flex items-center space-x-2">
+                                                                <i class="fas fa-check-circle"></i>
+                                                                <span>${message}</span>
+                                                            </div>
+                                                        </div>
+                                                    `);
                     $('body').append(toast);
                     setTimeout(() => {
                         toast.fadeOut(300, function () {
