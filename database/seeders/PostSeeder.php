@@ -13,7 +13,8 @@ class PostSeeder extends Seeder
     public function run()
     {
         // Post 1: Food distribution event
-        Post::create([
+       
+       /* Post::create([
             'description' => 'Our NGO organized a food distribution program to support underprivileged families in the community.',
             'type' => 'media',
             'impressions' => 80,
@@ -51,6 +52,7 @@ class PostSeeder extends Seeder
             'impressions' => 95,
             'user_id' => 5,
         ]);
+        */
     }
 
     // function to get the Username of the User who created the Post

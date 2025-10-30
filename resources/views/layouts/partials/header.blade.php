@@ -1,4 +1,5 @@
 <header class="bg-white shadow-sm border-b border-gray-200 fixed top-0 w-full z-50">
+    
     <div class="grid grid-cols-3 px-4 py-3 items-center">
         <!-- Left Section -->
         <div class="flex items-center space-x-2">
@@ -82,8 +83,20 @@
                 <!-- Profile Dropdown -->
                 <div
                     class="profile-dropdown absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                    @php
+                        $user = auth()->user();
+                        
+                        $url = null;
+
+                        if ($user && $user->isNgo()) {
+                            $url = route('common.ngo.profile', $user->id);
+                        } else {
+                            $url = route('people.profile');
+                        }
+                    @endphp
+
                     <div class="p-4">
-                        <a href="{{ route(auth()->user()->isNgo() ? 'ngo.profile' : 'people.profile') }}"
+                        <a href="{{ $url }}"
                             class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
                             <div class="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
                                 @if (auth()->user()->profile_photo)
@@ -137,10 +150,10 @@
                         </form>
                     </div>
 
-                    <div class="p-3 border-t border-gray-200">
+                    {{-- <div class="p-3 border-t border-gray-200">
                         <p class="text-xs text-gray-500">Privacy · Terms · Advertising · Ad Choices · Cookies · © 2025
                         </p>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

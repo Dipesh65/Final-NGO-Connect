@@ -29,7 +29,7 @@ class RegisterNgoController extends Controller
             'category' => ['required', 'string', 'max:255'],
             'subcategory' => ['nullable', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:20'],
+            'ngo_phone' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
@@ -71,16 +71,17 @@ class RegisterNgoController extends Controller
                     }
                 }
 
-                // Create contact person user
+                // Create contact person user in users table
                 $contactUser = User::create([
                     'name' => $request->contact_full_name,
                     'email' => $request->contact_email,
                     'password' => Hash::make($request->contact_password),
+                    'phone' => $request->contact_phone,
                     'role_id' => 2, // Role 2 is for contact persons
                     'verified' => false,
                 ]);
 
-                // Create NGO user
+                // Create NGO user in users table
                 $ngoUser = User::create([
                     'name' => $request->ngo_name,
                     'email' => $request->email,
@@ -90,7 +91,7 @@ class RegisterNgoController extends Controller
                     'verified' => false,
                 ]);
 
-                // Create NGO record
+                // Create NGO record in ngos table
                 $ngo = Ngo::create([
                     'user_id' => $ngoUser->id,
                     'ngo_name' => $request->ngo_name,
@@ -98,7 +99,7 @@ class RegisterNgoController extends Controller
                     'category' => $request->category,
                     'subcategory' => $request->subcategory,
                     'address' => $request->address,
-                    'phone' => $request->phone,
+                    'phone' => $request->ngo_phone,
                     'registration_number' => $request->registration_number,
                     'registration_district' => $request->registration_district,
                     'last_renewal_date' => $request->last_renewal_date,

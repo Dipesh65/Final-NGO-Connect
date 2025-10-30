@@ -38,7 +38,7 @@ class VolunteerRegistered extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message' => "{$this->volunteer->name} registered as a volunteer for your event: {$this->event->title}.",
+            'message' => "{$this->volunteer->name} has registered as a volunteer for your event: {$this->event->title}.",
             'event_id' => $this->event->id,
         ];
     }

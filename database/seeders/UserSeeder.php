@@ -16,12 +16,12 @@ class UserSeeder extends Seeder
 
         $people = User::factory()->people()->count(5)->create();
 
-        $owner = $people->random();
+        // $owner = $people->random();
 
-        User::factory()->ngo()->create([
-            'name' => 'Sample NGO',
-            'email' => 'ngo@ngo.com',
-            'owner_id' => $owner->id,
-        ]);
+        // // User::factory()->ngo()->create([
+        // //     'name' => 'Sample NGO',
+        // //     'email' => 'ngo@ngo.com',
+        // //     'owner_id' => $owner->id,
+        // // ]);
     }
 }

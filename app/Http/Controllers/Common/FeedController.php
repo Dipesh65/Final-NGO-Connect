@@ -2,22 +2,54 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Models\PostHasComments;
+use App\Models\Follows;
 use App\Models\PostHasLikes;
-use App\Models\PostHasReports;
 use Illuminate\Http\Request;
+use App\Models\PostHasReports;
+use App\Models\PostHasComments;
 use PhpParser\Node\Stmt\TryCatch;
+use App\Http\Controllers\Controller;
 
 class FeedController extends Controller
 {
     public function index()
-    {
-        $posts = Post::get();
+{
+    $posts = Post::get(); // Post::paginate(20)
 
-        return view('common.feed.index', compact('posts'));
+    if (auth()->check()) {
+        $userId = auth()->id();
+
+        $userLikedPostIds = PostHasLikes::where('user_id', $userId)->pluck('post_id')->toArray();
+        $posts->each(function ($post) use ($userLikedPostIds) {
+            $post->is_liked = in_array($post->id, $userLikedPostIds);
+        });
+
+        $ngoIds = $posts->pluck('user_id')->unique()->toArray(); 
+        // dd($ngoIds);
+        
+        $userFollowedNgoIds = Follows::where('user_id', $userId)
+                                     ->whereIn('ngo_id', $ngoIds) // Efficient: limits to loaded NGOs
+                                     ->pluck('ngo_id')
+                                     ->toArray();
+        // dd($userFollowedNgoIds);
+        $posts->each(function ($post) use ($userFollowedNgoIds) {
+        // dd($post->user_id);
+        // dd($userFollowedNgoIds);
+            $post->is_following = in_array($post->user_id, $userFollowedNgoIds);
+            // dd($post->is_following);
+        });
+
+    } else {
+        // Guests: No likes or follows
+        $posts->each(function ($post) {
+            $post->is_liked = false;
+            $post->is_following = false;
+        });
     }
+
+    return view('common.feed.index', compact('posts'));
+}
 
     public function like(Request $request)
     {
@@ -34,8 +66,12 @@ class FeedController extends Controller
         if($alreadyLiked->exists()){
             $alreadyLiked = $alreadyLiked->first();
             $alreadyLiked->delete();
+            // $isLiked = false;
 
-            return response()->json(['message' => 'You already liked this post',],400);
+           return response()->json([
+            'message' => 'You already liked this post',
+            'isLiked' => false,
+            ],400);
         }
 
         // Like the post
@@ -44,7 +80,10 @@ class FeedController extends Controller
             'user_id' => $user->id,
         ]);
 
-        return response()->json(['message' => 'Liked the post successfully',], 201);
+        return response()->json([
+            'message' => 'Liked the post successfully',
+            'isLiked' => true,
+        ], 201);
     }
 
     public function comment(Request $request)
@@ -117,5 +156,33 @@ class FeedController extends Controller
         ]);
 
         return redirect()->route('common.feed')->with('Error', 'Post reported successfully!');
+    }
+
+    public function follow(Request $request)
+    {
+        $request->validate([
+            'ngo_id' => 'required|exists:users,id|different:user_id', // Ensure not self-follow
+        ]);
+
+        $userId = auth()->id(); // Follower is the logged-in user
+        $ngoId = $request->ngo_id; // Followee from request
+
+        // Toggle: Delete if exists, create if not
+        $existing = Follows::where('user_id', $userId)
+                           ->where('ngo_id', $ngoId)
+                           ->first();
+
+        if ($existing) {
+            $existing->delete();
+            $following = false;
+        } else {
+            Follows::create([
+                'ngo_id' => $ngoId,
+                'user_id' => $userId
+            ]);
+            $following = true;
+        }
+
+        return response()->json(['following' => $following]);
     }
 }

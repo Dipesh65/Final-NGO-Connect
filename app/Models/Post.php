@@ -20,13 +20,17 @@ class Post extends Model
     // get the User who created the Post
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->with('ngo');
     }
 
     // get the likes of the Post
     public function likes()
     {
         return $this->hasMany(PostHasLikes::class, 'post_id');
+    }
+
+    public function likedUsers(){
+        return $this->belongsToMany(User::class,'likes');
     }
 
     // get the comments of the Post

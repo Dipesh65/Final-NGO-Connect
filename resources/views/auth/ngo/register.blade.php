@@ -11,9 +11,9 @@
             <div class="absolute top-1/4 -left-20 w-40 h-40 bg-red-200 rounded-full opacity-15"></div>
         </div>
 
-        <div class="bg-white shadow-xl rounded-2xl w-full max-w-5xl overflow-hidden relative z-10">
+        <div class="bg-white shadow-xl rounded-2xl w-full max-w-5xl overflow-hidden relative z-10 my-10">
 
-            <div class="bg-white px-12 py-6 text-center border-b border-gray-100 relative">
+            <div class="bg-white px-12 py-6 text-center border-b border-gray-100 relative ">
                 <h1 class="text-3xl font-bold text-gray-900 mb-2">NGO Registration</h1>
                 <p class="text-gray-600 text-lg">Register your organization and make a difference</p>
 
@@ -121,9 +121,9 @@
                                 </div>
 
                                 <div class="space-y-2">
-                                    <label for="phone" class="block text-lg font-medium text-gray-700">Phone Number
+                                    <label for="ngo_phone" class="block text-lg font-medium text-gray-700">Phone Number
                                         *</label>
-                                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                                    <input type="tel" name="ngo_phone" id="ngo_phone" value="{{ old('ngo_phone') }}"
                                         class="w-full px-4 py-2 bg-white border border-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-lg"
                                         placeholder="Enter phone number" required>
                                 </div>
@@ -354,7 +354,7 @@
                             </p>
                         </div>
 
-                        <div class="ml-auto">
+                        <div >
                             <button type="button" id="nextBtn"
                                 class="bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-lg">
                                 Next
@@ -470,6 +470,7 @@
                     },
                     error: function (xhr) {
                         $('#submitBtn').prop('disabled', false).text('Submit Registration');
+                        // console.log($('#contact_phone').val());
 
                         if (xhr.status === 422) {
                             const errors = xhr.responseJSON.errors;

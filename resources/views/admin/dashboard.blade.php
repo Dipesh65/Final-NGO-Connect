@@ -172,8 +172,8 @@
 
         <button class="bg-white border border-gray-300 rounded-lg p-4 hover:shadow-md transition-shadow text-left">
             <i class="fas fa-chart-bar text-purple-600 text-2xl mb-2"></i>
-            <h3 class="font-medium text-gray-900">View Analytics</h3>
-            <p class="text-sm text-gray-600">Generate detailed analytics</p>
+            <h3 class="font-medium text-gray-900">View Logs</h3>
+            <p class="text-sm text-gray-600">View detailed logs</p>
         </button>
     </div>
 </div>

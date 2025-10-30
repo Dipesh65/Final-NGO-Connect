@@ -40,11 +40,13 @@
             <p class="mt-4 text-lg text-gray-600 max-w-xl mx-auto">A dedicated social platform where NGOs can share their
                 work, organize events, and connect with volunteers and donors to create meaningful impact.</p>
             <div class="mt-6 space-x-4">
-                <select name="user" id="user" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">
+                {{-- <select name="user" id="user" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">
                     <option value="">Register</option>
                     <option value="">Register as People</option>
                     <option value="">Register as NGO</option>
-                </select>
+                </select> --}}
+                <a href="{{ route('register.people') }}" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Register as People</a>
+                <a href="{{ route('register.ngo') }}" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Register as NGO</a>
                 <a href="{{ route('login') }}" class="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800">Login</a>
             </div>
         </section>

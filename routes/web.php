@@ -40,16 +40,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/switch-to-ngo/{ngo_id}', [Auth\SettingController::class, 'switchToNgo'])->middleware('role:2')->name('switch.to.ngo');
     Route::get('/switch-back', [Auth\SettingController::class, 'switchBack'])->name('switch.back');
 
-
+    // Admin routes 
     Route::middleware('role:0')->prefix('admin')->group(function () {
 
-        // Route::get('/ngos', [Admin\AdminController::class, 'ngos'])->name('admin.ngos');
-        Route::get('/ngos/{id}', [Admin\AdminController::class, 'show'])->name('admin.ngos.show');
-        Route::post('/ngos/{id}/verify', [Admin\AdminController::class, 'verifyNgo'])->name('admin.ngos.verify');
-        Route::post('/ngos/{id}/reject', [Admin\AdminController::class, 'rejectNgo'])->name('admin.ngos.reject');
+        Route::get('/',[Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/dashboard', [Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-        Route::get('/dashboard', [Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
-        Route::get('/ngos', [Admin\AdminController::class, 'showNgos'])->name('admin.ngos');
+        Route::get('/ngos/{id}', [Admin\NgoController::class, 'show'])->name('admin.ngos.show');
+        Route::post('/ngos/{id}/verify', [Admin\NgoController::class, 'verifyNgo'])->name('admin.ngos.verify');
+        Route::post('/ngos/{id}/reject', [Admin\NgoController::class, 'rejectNgo'])->name('admin.ngos.reject');
+
+        Route::get('/ngos', [Admin\NgoController::class, 'showNgos'])->name('admin.ngos');
 
         // Routes related to logs
         Route::get('/log', [Admin\LogController::class, 'showLog'])->name('admin.log');
@@ -59,7 +60,7 @@ Route::middleware('auth')->group(function () {
     // NGO routes
     Route::middleware('role:1')->prefix('ngo')->group(function () {
 
-        Route::get('/profile', [Ngo\NgoController::class, 'show'])->name('ngo.profile');
+        // Route::get('/profile', [Ngo\NgoController::class, 'show'])->name('ngo.profile');
         Route::get('/profile/edit', [Ngo\NgoController::class, 'edit'])->name('ngo.profile.edit');
         Route::put('/profile', [Ngo\NgoController::class, 'update'])->name('ngo.profile.update');
 
@@ -119,10 +120,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:1,2')->group(function () {
         Route::get('/feed', [Common\FeedController::class, 'index'])->name('common.feed');
         Route::post('/feed', [Common\FeedController::class, 'create'])->name('common.post.create');
+        Route::get('/ngo/profile/{id}', [Common\NgoProfileController::class, 'index'])->name('common.ngo.profile');
         Route::post('/post/like', [Common\FeedController::class, 'like'])->name('common.post.like');
         Route::post('/post/comment', [Common\FeedController::class, 'comment'])->name('common.post.comment');
         Route::post('/post/report', [Common\FeedController::class, 'report'])->name('common.post.report');
-
+        Route::post('/ngo/follow', [Common\FeedController::class, 'follow'])->name('common.ngo.follow');
         Route::get('/ngos/search', [People\NgoSearchController::class, 'index'])->name('people.ngo.search');
     });
 });

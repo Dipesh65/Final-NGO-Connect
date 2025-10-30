@@ -12,3 +12,4 @@ class LogController extends Controller
         
     }
 }
+    

@@ -13,6 +13,7 @@ use App\Notifications\NgoRegistrationRejected;
 
 class AdminController extends Controller
 {
+    /* public function showNgos(){
     public function __construct()
     {
         $this->middleware(['auth', 'verified', 'role:admin']);
@@ -26,8 +27,9 @@ class AdminController extends Controller
         $totalDonations = Donation::sum('donation_amount');
         return view('admin.dashboard',compact('ngoCount','userCount','pendingNgoApprovals','reportedPosts','totalDonations'));
     }
+        */
 
-    public function showNgos(){
+    /* public function showNgos(){
         $ngos = User::where('role_id', 1)->with('ngo')->paginate(1); //change it to 10
         return view('admin.ngos.list', compact('ngos'));
     }
@@ -75,4 +77,5 @@ class AdminController extends Controller
         $ngo->delete();
         return redirect()->route('admin.ngos')->with('success', 'NGO registration rejected and deleted.');
     }
+        */
 }

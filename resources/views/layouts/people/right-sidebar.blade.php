@@ -1,7 +1,7 @@
  <div class="w-80 h-screen overflow-y-auto scrollbar-hide bg-white fixed right-0 p-4">
      <!-- Sponsored -->
      <div class="mb-6">
-         <h3 class="text-gray-500 font-medium mb-3">Sponsored</h3>
+         <h3 class="text-gray-500 font-medium mb-3">Featured</h3>
          <div class="space-y-3">
              <div class="flex space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg">
                  <div class="w-16 h-16 bg-purple-600 rounded-lg flex items-center justify-center">

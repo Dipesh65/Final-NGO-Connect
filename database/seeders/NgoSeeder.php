@@ -1,5 +1,5 @@
-<?php
-
+<?
+ /*
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -8,14 +8,12 @@ use Carbon\Carbon;
 
 class NgoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    
     public function run(): void
     {
         DB::table('ngos')->insert([
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'ngo_name' => 'Nepal Education Foundation',
                 'registration_date' => '2010-03-15',
                 'category' => 'Education',
@@ -35,7 +33,7 @@ class NgoSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 3,
                 'ngo_name' => 'Healthy Nepal Initiative',
                 'registration_date' => '2015-07-20',
                 'category' => 'Health',
@@ -57,3 +55,4 @@ class NgoSeeder extends Seeder
         ]);
     }
 }
+    */

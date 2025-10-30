@@ -82,8 +82,6 @@
         </div>
     @endif
 
-
-
     <script>
         $(document).ready(function() {
             $('.notification-btn').on('click', function() {

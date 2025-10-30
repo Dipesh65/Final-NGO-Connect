@@ -16,10 +16,9 @@
 
     <!-- Navigation Items -->
     <div class="space-y-2">
-        <a href="{{ route('ngo.profile') }}"
+        <a href="{{ route('common.ngo.profile',auth()->user()->id) }}"
             class="flex items-center space-x-3 py-3 px-3 rounded-lg hover:bg-gray-100 cursor-pointer">
             <span class="iconify" data-icon="fluent-color:person-edit-32" data-width="34" data-height="34"></span>
-
             <span class="text-gray-900">My Profile</span>
         </a>
 

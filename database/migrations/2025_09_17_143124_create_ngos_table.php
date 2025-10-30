@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('registration_date')->comment('Date of NGO registration');
             $table->string('category')->comment('Primary category of the NGO (e.g., Education, Health, Environment)');
             $table->string('address')->comment('Physical address of the NGO');
-            $table->string('phone', 20)->comment('Contact phone number (max 20 characters)');
+            $table->string('phone')->comment('Contact phone number');
             $table->string('registration_number')->comment('DAO registration number');
             $table->string('registration_district')->comment('District of DAO registration');
             $table->date('last_renewal_date')->comment('Date of last registration renewal');

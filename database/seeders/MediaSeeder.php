@@ -1,4 +1,5 @@
 <?php
+    /*
 
 namespace Database\Seeders;
 
@@ -58,3 +59,4 @@ class MediaSeeder extends Seeder
         ]);
     }
 }
+*/

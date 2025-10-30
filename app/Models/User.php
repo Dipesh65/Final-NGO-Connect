@@ -15,6 +15,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'phone',
         'owner_id',
         'verified',
     ];
@@ -53,6 +54,10 @@ class User extends Authenticatable
     public function ngo()
     {
         return $this->hasOne(Ngo::class, 'user_id', 'id');
+    }
+
+    public function likedPosts(){
+        return $this->belongsToMany(Post::class,'likes'); //likes is the pivot table
     }
 
     public function isAdmin()

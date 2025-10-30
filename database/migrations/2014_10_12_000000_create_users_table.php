@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable();
             $table->tinyInteger('role_id')->unsigned()->default(2); // Default to people (2)
             $table->bigInteger('owner_id')->unsigned()->nullable(); // For NGOs owned by people
             $table->boolean('verified')->default(false); // For NGO verification
