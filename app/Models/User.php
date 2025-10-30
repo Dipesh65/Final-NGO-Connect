@@ -36,6 +36,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Ngo::class, 'user_ngo_favorites', 'user_id', 'ngo_id')->withTimestamps();
     }
 
+    public function followedNgos(){
+        return $this->belongsToMany(Ngo::class, 'follows', 'user_id', 'ngo_id')->withTimestamps();
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);

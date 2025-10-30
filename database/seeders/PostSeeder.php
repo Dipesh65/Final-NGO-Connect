@@ -14,11 +14,11 @@ class PostSeeder extends Seeder
     {
         // Post 1: Food distribution event
        
-       /* Post::create([
+        Post::create([
             'description' => 'Our NGO organized a food distribution program to support underprivileged families in the community.',
             'type' => 'media',
             'impressions' => 80,
-            'user_id' => 1,
+            'user_id' => 2,
         ]);
 
         // Post 2: Tree plantation campaign
@@ -26,8 +26,10 @@ class PostSeeder extends Seeder
             'description' => 'We successfully carried out a tree plantation campaign to promote a greener and healthier environment.',
             'type' => 'media',
             'impressions' => 150,
-            'user_id' => 2,
+            'user_id' => 3,
         ]);
+
+        /*
 
         // Post 3: Motivational message (no media)
         Post::create([
@@ -53,6 +55,7 @@ class PostSeeder extends Seeder
             'user_id' => 5,
         ]);
         */
+        
     }
 
     // function to get the Username of the User who created the Post

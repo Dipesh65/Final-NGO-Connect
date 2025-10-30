@@ -45,7 +45,13 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center">
-<a href="{{route('common.ngo.profile',$post->user->id)}}" class="font-bold text-gray-900">{{ $post->user->ngo->ngo_name ? $post->user->ngo->ngo_name : $post->user->name}}</a>
+                                            <a href="{{route('common.ngo.profile', $post->user->id)}}"
+                                                class="font-bold text-gray-900">
+                                                @isset($post->user->ngo->ngo_name)
+                                                    {{ $post->user->ngo->ngo_name ? $post->user->ngo->ngo_name : $post->user->name}}
+                                                @endisset
+
+                                            </a>
                                             <span class="ml-1 mr-1 text-gray-500">•</span>
                                             <!-- Follow button-->
                                             <button id="follow-btn-{{ $post->id }}" data-ngo-id="{{ $post->user->id }}"
@@ -342,7 +348,7 @@
                 @endforeach
                 ]@if(!$loop->last),@endif
             @endforeach
-                                                                };
+                                                                    };
 
         $(document).ready(function () {
             $('.like-button').on('click', function () {
@@ -437,56 +443,56 @@
                 const avatarHtml = comment.user_avatar
                     ? `<img src="${comment.user_avatar}" alt="${comment.user_name}" class="w-8 h-8 rounded-full object-cover">`
                     : `<div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                                                                 <i class="fas fa-user text-red-500 text-sm"></i>
-                                                                               </div>`;
+                                                                                     <i class="fas fa-user text-red-500 text-sm"></i>
+                                                                                   </div>`;
 
                 let replyCountHtml = '';
                 if (comment.replies_count > 1) {
                     replyCountHtml = `<button class="view-replies-btn text-sm text-red-600 hover:text-red-700 font-medium" data-comment-id="${comment.id}">
-                                                                                 <i class="fas fa-chevron-down mr-1"></i>View all ${comment.replies_count} replies
-                                                                               </button>`;
+                                                                                     <i class="fas fa-chevron-down mr-1"></i>View all ${comment.replies_count} replies
+                                                                                   </button>`;
                 }
 
                 return $(`
-                                                                            <div class="flex space-x-3 mb-4">
-                                                                                ${avatarHtml}
-                                                                                <div class="flex-1">
-                                                                                    <div class="bg-gray-100 rounded-lg px-3 py-2">
-                                                                                        <p class="font-medium text-sm text-gray-900">${comment.user_name}</p>
-                                                                                        <p class="text-gray-800">${comment.comment}</p>
+                                                                                <div class="flex space-x-3 mb-4">
+                                                                                    ${avatarHtml}
+                                                                                    <div class="flex-1">
+                                                                                        <div class="bg-gray-100 rounded-lg px-3 py-2">
+                                                                                            <p class="font-medium text-sm text-gray-900">${comment.user_name}</p>
+                                                                                            <p class="text-gray-800">${comment.comment}</p>
+                                                                                        </div>
+                                                                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                                                            <span>${comment.created_at}</span>
+                                                                                            <button class="reply-btn hover:text-gray-700" data-comment-id="${comment.id}" data-user-name="${comment.user_name}">Reply</button>
+                                                                                        </div>
+                                                                                        ${replyCountHtml}
                                                                                     </div>
-                                                                                    <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                                                                                        <span>${comment.created_at}</span>
-                                                                                        <button class="reply-btn hover:text-gray-700" data-comment-id="${comment.id}" data-user-name="${comment.user_name}">Reply</button>
-                                                                                    </div>
-                                                                                    ${replyCountHtml}
                                                                                 </div>
-                                                                            </div>
-                                                                        `);
+                                                                            `);
             }
 
             function createReplyElement(reply) {
                 const avatarHtml = reply.user_avatar
                     ? `<img src="${reply.user_avatar}" alt="${reply.user_name}" class="w-7 h-7 rounded-full object-cover">`
                     : `<div class="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                                                                 <i class="fas fa-user text-gray-500 text-xs"></i>
-                                                                               </div>`;
+                                                                                     <i class="fas fa-user text-gray-500 text-xs"></i>
+                                                                                   </div>`;
 
                 return $(`
-                                                                            <div class="flex space-x-3 ml-11 mb-3">
-                                                                                ${avatarHtml}
-                                                                                <div class="flex-1">
-                                                                                    <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-                                                                                        <p class="font-medium text-sm text-gray-900">${reply.user_name}</p>
-                                                                                        <p class="text-gray-700 text-sm">${reply.comment}</p>
-                                                                                    </div>
-                                                                                    <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                                                                                        <span>${reply.created_at}</span>
-                                                                                        <button class="reply-btn hover:text-gray-700" data-comment-id="${reply.parent_id}" data-user-name="${reply.user_name}">Reply</button>
+                                                                                <div class="flex space-x-3 ml-11 mb-3">
+                                                                                    ${avatarHtml}
+                                                                                    <div class="flex-1">
+                                                                                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+                                                                                            <p class="font-medium text-sm text-gray-900">${reply.user_name}</p>
+                                                                                            <p class="text-gray-700 text-sm">${reply.comment}</p>
+                                                                                        </div>
+                                                                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                                                            <span>${reply.created_at}</span>
+                                                                                            <button class="reply-btn hover:text-gray-700" data-comment-id="${reply.parent_id}" data-user-name="${reply.user_name}">Reply</button>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        `);
+                                                                            `);
             }
 
             function openCommentsModal() {
@@ -737,13 +743,13 @@
 
                 const showToast = (type, message) => {
                     const toast = $(`
-                                                                                    <div class="fixed top-4 right-4 bg-${(type == "success") ? "green" : "red"}-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-                                                                                        <div class="flex items-center space-x-2">
-                                                                                            <i class="fas fa-check-circle"></i>
-                                                                                            <span>${message}</span>
+                                                                                        <div class="fixed top-4 right-4 bg-${(type == "success") ? "green" : "red"}-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+                                                                                            <div class="flex items-center space-x-2">
+                                                                                                <i class="fas fa-check-circle"></i>
+                                                                                                <span>${message}</span>
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                `);
+                                                                                    `);
                     $('body').append(toast);
                     setTimeout(() => {
                         toast.fadeOut(300, function () {

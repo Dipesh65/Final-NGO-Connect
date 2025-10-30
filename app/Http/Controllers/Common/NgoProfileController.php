@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Follows;
 use App\Models\PostHasLikes;
 use Illuminate\Http\Request;
@@ -14,8 +15,9 @@ class NgoProfileController extends Controller
     public function index($id){
 
     $ngo = User::where('role_id', 1)->with('ngo')->findOrFail($id);
-
     $posts = Post::get(); // Post::paginate(20)
+    $eventsCount = Event::where('user_id',$id)->count();
+    $followersCount = Follows::where('ngo_id',$id)->count();
 
     if (auth()->check()) {
         $userId = auth()->id();
@@ -31,6 +33,6 @@ class NgoProfileController extends Controller
             $post->is_liked = false;
         });
     }
-        return view('common.profile.ngo', compact('posts','ngo'));
+        return view('common.profile.ngo', compact('posts','ngo','eventsCount','followersCount'));
     }
 }

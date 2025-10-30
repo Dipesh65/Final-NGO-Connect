@@ -100,8 +100,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Total Events</p>
-                                    <p class="text-3xl font-bold text-gray-900 mt-2" id="total-events">
-                                        {{ $stats['total_events'] ?? 0 }}</p>
+                                    <p class="text-3xl font-bold text-gray-900 mt-2" id="total-events">{{ $eventsCount }}</p>
                                 </div>
                                 <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                                     <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
@@ -139,7 +138,7 @@
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Total Followers</p>
                                     <p class="text-3xl font-bold text-gray-900 mt-2" id="total-followers">
-                                        {{ $stats['total_followers'] ?? 0 }}</p>
+                                        {{ $followersCount ?? 0 }}</p>
                                 </div>
                                 <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                                     <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,6 +195,7 @@
     <script>
         $(document).ready(function () {
             const ngoId = {{ $ngo->id }};
+            /*
             let currentPage = 1;
             const postsPerPage = 5;
 
@@ -287,6 +287,7 @@
                     }
                 });
             }
+        */
 
             // Initialize Activity Chart
             const ctx = document.getElementById('activityChart');

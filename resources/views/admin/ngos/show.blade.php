@@ -50,16 +50,14 @@
                                 </span>
                             @endif
                         </div>
-                        @if($ngo->ngo->contact_position)
-                            <p class="text-gray-600 mt-2 inline">Contact Person: <span
-                                    class="font-medium text-gray-900">{{ $ngo->owner->name }}
-                                    ({{ $ngo->ngo->contact_position }})</span>
-                            <div class="px-1 inline">
-                                ||
-                                <span class="font-medium text-gray-900 px-1">{{$ngo->owner->phone}}</span>
-                            </div>
-                            </p>
-                        @endif
+                        <p class="text-gray-600 mt-2 inline">Contact Person: <span
+                                class="font-medium text-gray-900">{{ $ngo->owner->name ?? 'N/A'}}
+                                ({{ $ngo->ngo->contact_position ?? 'N/A' }})</span>
+                        <div class="px-1 inline">
+                            ||
+                            <span class="font-medium text-gray-900 px-1">{{$ngo->owner->phone ?? 'N/A'}}</span>
+                        </div>
+                        </p>
                     </div>
 
                     {{-- Back Button --}}
@@ -180,9 +178,9 @@
             @if($ngo->ngo->subcategory)
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div class="flex items-center mb-4">
-                    <div class="w-1 h-6 bg-red-500 rounded-full mr-3"></div>
-                    <h3 class="text-lg font-semibold text-gray-900">Sub Categories</h3>
-                </div>
+                        <div class="w-1 h-6 bg-red-500 rounded-full mr-3"></div>
+                        <h3 class="text-lg font-semibold text-gray-900">Sub Categories</h3>
+                    </div>
 
                     <div class="flex flex-wrap gap-2">
                         @foreach(explode(',', $ngo->ngo->subcategory) as $sub)

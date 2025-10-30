@@ -1,5 +1,4 @@
 <?php
-    /*
 
 namespace Database\Seeders;
 
@@ -24,7 +23,7 @@ class MediaSeeder extends Seeder
             'post_id' => 2,
         ]);
 
-        Media::create([
+        /* Media::create([
             'media_type' => 'image',
             'media_path_name' => 'images/posts/tree_plantation2.jpg',
             'post_id' => 2,
@@ -57,6 +56,6 @@ class MediaSeeder extends Seeder
             'media_path_name' => 'images/posts/education_program2.jpg',
             'post_id' => 5,
         ]);
+        */
     }
 }
-*/

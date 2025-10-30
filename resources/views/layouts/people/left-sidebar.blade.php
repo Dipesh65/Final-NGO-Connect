@@ -107,7 +107,7 @@
         <div class="space-y-2">
             <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">NGOs Followed</span>
-                <span class="text-sm font-medium text-red-600">{{ auth()->user()->favoriteNgos()->count() }}</span>
+                <span class="text-sm font-medium text-red-600">{{ auth()->user()->followedNgos()->count() }}</span>
             </div>
             <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Events Joined</span>
@@ -116,18 +116,6 @@
             <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Total Donations</span>
                 <span class="text-sm font-medium text-red-600">$250</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="p-4 mt-auto border-t border-gray-100">
-        <div class="text-xs text-gray-500 space-y-1">
-            <p>&copy; 2024 NGO Connect</p>
-            <div class="flex space-x-2">
-                <a href="#" class="hover:text-red-500">Privacy</a>
-                <span>•</span>
-                <a href="#" class="hover:text-red-500">Terms</a>
             </div>
         </div>
     </div>

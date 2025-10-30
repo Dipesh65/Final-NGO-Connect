@@ -129,8 +129,8 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::get('/privacy', [Website\StaticPageController::class, 'privacy'])->name('privacy');
-Route::get('/terms', [Website\StaticPageController::class, 'terms'])->name('terms');
-Route::get('/advertising', [Website\StaticPageController::class, 'advertising'])->name('advertising');
-Route::get('/cookies', [Website\StaticPageController::class, 'cookies'])->name('cookies');
-Route::get('/more', [Website\StaticPageController::class, 'more'])->name('more');
+// Route::get('/privacy', [Website\StaticPageController::class, 'privacy'])->name('privacy');
+// Route::get('/terms', [Website\StaticPageController::class, 'terms'])->name('terms');
+// Route::get('/advertising', [Website\StaticPageController::class, 'advertising'])->name('advertising');
+// Route::get('/cookies', [Website\StaticPageController::class, 'cookies'])->name('cookies');
+// Route::get('/more', [Website\StaticPageController::class, 'more'])->name('more');

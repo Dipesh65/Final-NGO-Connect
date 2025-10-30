@@ -14,7 +14,19 @@ class UserSeeder extends Seeder
             'email' => 'admin@ngo.com',
         ]);
 
-        $people = User::factory()->people()->count(5)->create();
+        // $people = User::factory()->people()->count(5)->create();
+
+        User::factory()->people()->create([
+            'name' => 'Nepal Education Foundation',
+            'email' => 'nepaleducationfoundation@gmail.com',
+            'role_id' => '1',
+        ]);
+
+        User::factory()->people()->create([
+            'name' => 'Healthy Nepal Initiative',
+            'email' => 'healthynepal@gmail.com',
+            'role_id' => '1',
+        ]);
 
         // $owner = $people->random();
 

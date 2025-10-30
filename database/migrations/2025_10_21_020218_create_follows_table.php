@@ -18,7 +18,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('ngo_id');
             // $table->unsignedBigInteger('user_id');
             $table->foreignId('user_id')->unsigned()->constrained('users')->onDelete('cascade');
-            $table->foreignId('ngo_id')->unsigned()->constrained('ngos')->onDelete('cascade');
+            $table->foreignId('ngo_id')->unsigned()->constrained('users')->onDelete('cascade');
         });
     }
 
