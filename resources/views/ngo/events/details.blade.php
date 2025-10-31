@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- {{  dd($event);}} --}}
-
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Back Button -->
@@ -15,7 +13,7 @@
 
             <!-- Main Event Card -->
             <div class="bg-white rounded-sm overflow-hidden shadow-xl">
-                <!-- Full-width Image -->
+                <!-- Image -->
                 <div class="relative w-full h-96 overflow-hidden bg-gradient-to-br from-red-100 to-red-50">
                     @if ($event->cover_image_path_name)
                         <img src="{{ asset('storage/' . $event->cover_image_path_name) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
@@ -42,7 +40,8 @@
                 <div class="p-8">
                     <!-- Title -->
                     <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ $event->title }}</h1>
-                    <p class="text-lg text-gray-600 mb-8">{{ $event->description }}</p>
+                    <p class="w-full text-lg text-gray-600 mb-8 whitespace-pre-wrap break-words">{{ $event->description }}</p>
+
 
                     <!-- Key Information Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-gray-200">
@@ -135,7 +134,7 @@
 
                     <!-- Action Buttons -->
                     <div class="mt-5 pt-8 border-t border-gray-200 flex flex-col sm:flex-row gap-4">
-                        <a href="#" class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-200 shadow-md hover:shadow-lg">
+                        <a href="{{ route('ngo.event.edit',$event->id)}}" class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-200 shadow-md hover:shadow-lg">
                             <span class="iconify mr-2" data-icon="fluent:edit-20-filled" data-width="20" data-height="20"></span>
                             Edit Event
                         </a>
@@ -151,8 +150,8 @@
                 </div>
             </div>
 
-            <!-- Delete Form (Hidden) -->
-            <form id="deleteForm" action="#" method="POST" style="display: none;">
+            <!-- Delete Form -->
+            <form id="deleteForm" action="{{ route('ngo.event.delete',$event->id) }}" method="POST" style="display: none;">
                 @csrf
                 @method('DELETE')
             </form>

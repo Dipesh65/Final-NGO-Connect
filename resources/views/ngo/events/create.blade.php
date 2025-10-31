@@ -20,24 +20,24 @@
                 <div class="sm:col-span-2">
                     <label for="title" class="block text-sm font-medium text-gray-700">Event Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                 </div>
                 <div class="sm:col-span-2">
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                     <textarea name="description" id="description" rows="6"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">{{ old('description') }}</textarea>
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm">{{ old('description') }}</textarea>
                 </div>
                 <div>
                     <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
                     <input type="text" name="location" id="location" value="{{ old('location') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                 </div>
                 <div>
                     <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
                     <select name="type" id="type"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                         <option value="0" {{ old('type') == '0' ? 'selected' : '' }}>Online</option>
                         <option value="1" {{ old('type') == '1' ? 'selected' : '' }}>Offline</option>
@@ -46,26 +46,26 @@
                 <div>
                     <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
                     <input type="datetime-local" name="start_date" id="start_date" value="{{ old('start_date') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                 </div>
                 <div>
                     <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
                     <input type="datetime-local" name="end_date" id="end_date" value="{{ old('end_date') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                 </div>
                 <div>
                     <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
                     <input type="text" name="capacity" id="capacity" value="{{ old('capacity') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                 </div>
                 <div>
                     <label for="is_volunteers_required" class="block text-sm font-medium text-gray-700">Volunteers
                         Required</label>
                     <select name="is_volunteers_required" id="is_volunteers_required"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
                         required>
                         <option value="1" {{ old('is_volunteers_required') == '1' ? 'selected' : '' }}>Yes
                         </option>
@@ -77,11 +77,11 @@
                     <label for="cover_image_path_name" class="block text-sm font-medium text-gray-700">Cover
                         Image</label>
                     <input type="file" name="cover_image_path_name" id="cover_image_path_name" accept="image/*"
-                        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+                        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
                 </div>
             </div>
             <div class="mt-6 flex items-center space-x-4">
-                <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
                     <span class="iconify inline-block mr-2" data-icon="fluent:save-20-filled" data-width="20"
                         data-height="20"></span>
                     Create Event

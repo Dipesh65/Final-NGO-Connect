@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Prompts\Concerns\Events;
 
 class EventController extends Controller
 {
@@ -15,9 +16,10 @@ class EventController extends Controller
         return view('ngo.events.index', compact('events'));
     }
 
-    public function showEventDetails($id){
+    public function showEventDetails($id)
+    {
         $event = Event::where('id', $id)->first();
-        return view('ngo.events.details',compact('event'));
+        return view('ngo.events.details', compact('event'));
     }
 
     public function createEvent()
@@ -61,7 +63,28 @@ class EventController extends Controller
         return redirect()->route('ngo.events')->with('success', 'Event created successfully.');
     }
 
-    public function deleteEvent(Request $request){
-
+    public function editEventDetails($id){
+        $event = Event::find($id);
+        return view('ngo.events.editDetails',compact('event'));
     }
+
+    public function updateEventDetails(){
+        return "updating...";
+    }
+
+    public function deleteEvent($id)
+    {
+        // Find the event by ID
+        $event = Event::find($id);
+
+        if (!$event) {
+            return redirect()->route('ngo.events')->with('failure', 'Error deleting event!');
+        }
+
+        // Delete the event
+        $event->delete();
+
+        return redirect()->route('ngo.events')->with('success', 'Event deleted successfully!');
+    }
+
 }
