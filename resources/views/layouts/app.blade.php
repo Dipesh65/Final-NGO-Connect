@@ -60,7 +60,9 @@
             </div>
 
             <!-- Right Sidebar -->
-            @include('layouts.people.right-sidebar')
+            @if(!request()->routeIs('common.ngo.profile'))
+                @include('layouts.people.right-sidebar')
+            @endif
         </div>
     @else
         <div class="flex pt-16">

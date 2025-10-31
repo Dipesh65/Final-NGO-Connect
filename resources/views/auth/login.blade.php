@@ -55,8 +55,7 @@
                 <div class="mt-10 text-center">
                     <p class="text-gray-600 text-lg">
                         Don't have an account? 
-                        <a href="{{ route('register.people') }}" class="text-red-500 hover:text-red-600 font-medium transition-colors">
-                            Sign Up
+                            Sign Up <a href="{{ route('register.ngo') }}" class="text-red-500 hover:text-red-600 font-medium transition-colors">(NGO </a> OR  <a href="{{ route('register.people') }}" class="text-red-500 hover:text-red-600 font-medium transition-colors">People)</a>
                         </a>
                     </p>
                 </div>

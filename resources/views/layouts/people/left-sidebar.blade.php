@@ -76,8 +76,8 @@
         </ul>
     </nav>
 
-    <!-- Your NGOs Section -->
-    @if (auth()->user()->favoriteNgos()->count() > 0)
+    <!-- Your NGOs Section ->>>> CHANGE FAVORITE TO FOLLOWED -->
+    {{-- @if (auth()->user()->favoriteNgos()->count() > 0)
         <div class="p-4 mt-6 border-t border-gray-100">
             <h4 class="text-sm font-semibold text-gray-900 mb-3">Your NGOs</h4>
             <div class="space-y-2">
@@ -99,7 +99,7 @@
                 @endforelse
             </div>
         </div>
-    @endif
+    @endif --}}
 
     <!-- Quick Stats Section -->
     <div class="p-4 mt-6 border-t border-gray-100">

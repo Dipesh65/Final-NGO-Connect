@@ -1,55 +1,118 @@
 @extends('layouts.app')
-@section('content')
 
-    <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Events</h1>
-        <a href="{{ route('ngo.events.create') }}" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-            <span class="iconify inline-block mr-2" data-icon="fluent:add-circle-20-filled" data-width="20"
-                data-height="20"></span>
-            Create Event
-        </a>
+@section('content')
+    <div>
+        <!-- Header Section -->
+        <div class="max-w-7xl mx-auto px-4 px-8 flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900">Events</h1>
+                <p class="text-gray-500 mt-2">Explore and manage all your organization's events</p>
+            </div>
+            <a href="{{ route('ngo.events.create') }}" class="inline-flex items-center px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                <span class="iconify inline-block mr-2" data-icon="fluent:add-circle-20-filled" data-width="20" data-height="20"></span>
+                Create Event
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-4 px-8">
+            @if ($events->isEmpty())
+                <!-- Empty State -->
+                <div class="bg-white rounded-2xl shadow-md p-12 text-center">
+                    <span class="iconify text-6xl text-gray-300 mx-auto block mb-6" data-icon="fluent:calendar-20-filled" data-width="64" data-height="64"></span>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">No Events Found</h3>
+                    <p class="text-gray-500 mb-6">Create your first event to get started with organizing activities for your community.</p>
+                    <a href="{{ route('ngo.events.create') }}" class="inline-flex items-center px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors">
+                        <span class="iconify inline-block mr-2" data-icon="fluent:add-circle-20-filled" data-width="18" data-height="18"></span>
+                        Create First Event
+                    </a>
+                </div>
+            @else
+                <!-- Events Grid -->
+                <div class="grid grid-cols-1 grid-cols-2 gap-6">
+                    @foreach ($events as $event)
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col">
+                            <!-- Image Container -->
+                            <div class="relative w-full h-36 overflow-hidden">
+                                @if ($event->cover_image_path_name)
+                                    <img src="{{ asset('storage/' . $event->cover_image_path_name) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-red-500 to-red-500">
+                                        <span class="iconify text-white" data-icon="fluent:calendar-20-filled" data-width="64" data-height="64"></span>
+                                    </div>
+                                @endif
+                                <!-- Event Type Badge -->
+                                <div class="absolute top-4 right-4">
+                                    <span class="inline-block px-3 py-1 bg-white rounded-full text-xs font-semibold {{ $event->type == 0 ? 'text-blue-700 bg-blue-100' : 'text-gray-700 bg-gray-100' }}">
+                                        {{ $event->type == 0 ? 'Online' : 'Offline' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Content Section -->
+                            <div class="p-5 flex-1 flex flex-col">
+                                <!-- Title -->
+                                <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-red-500 transition-colors">{{ $event->title }}</h3>
+
+                                <!-- Date and Location Info -->
+                                <div class="space-y-2 mb-3">
+                                    <!-- Start Date -->
+                                    <div class="flex items-start space-x-2">
+                                        <div>
+                                            <span class="text-sm font-semibold text-gray-500">Start Date: </span>
+                                            <span class="text-sm font-medium text-gray-900">{{ $event->start_date->format('M d, Y') }}</span> 
+                                            <span class="text-sm text-gray-500"> ({{ $event->start_date->format('h:i A') }}) </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- End Date -->
+                                    <div class="flex items-start space-x-2">
+                                        <div>
+                                            <span class="text-sm font-semibold text-gray-500">End Date:</span>
+                                            <span class="text-sm font-medium text-gray-900">{{ $event->end_date->format('M d, Y') }}</span>
+                                            <span class="text-sm text-gray-500">( {{ $event->end_date->format('h:i A') }} )</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Location -->
+                                    <div class="flex items-start space-x-2">
+                                        <div>
+                                            <span class="text-sm font-semibold text-gray-500 ">Location: </span>
+                                            <span class="text-sm font-medium text-gray-900">{{ $event->location }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <p class="text-sm text-gray-500 line-clamp-2 mb-3 flex-1">{{ $event->description }}</p>
+
+                                <!-- Statistics -->
+                                <div class="grid grid-cols-2 gap-3 py-3 border-t border-gray-200">
+                                    <div class="text-center">
+                                        <p class="text-xs font-semibold text-gray-500 uppercase">Volunteers</p>
+                                        <p class="text-lg font-bold text-red-500">{{ $event->volunteers()->count() }}<span class="text-gray-400 text-sm">/{{ $event->capacity }}</span></p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-xs font-semibold text-gray-500 uppercase">Status</p>
+                                        <p class="text-lg font-bold {{ now() < $event->start_date ? 'text-green-500' : (now() < $event->end_date ? 'text-blue-500' : 'text-gray-400') }}">
+                                            {{ now() < $event->start_date ? 'Upcoming' : (now() < $event->end_date ? 'Live' : 'Ended') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- View More Button -->
+                                <a href="#" class="w-full mt-3 inline-flex items-center justify-center px-4 py-2.5 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg text-sm">
+                                    View Details
+                                    <span class="iconify inline-block ml-2" data-icon="fluent:arrow-right-20-filled" data-width="16" data-height="16"></span>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+            @endif
+        </div>
     </div>
 
-    @if ($events->isEmpty())
-        <div class="text-center py-12">
-            <span class="iconify text-6xl text-gray-300 mx-auto block mb-4" data-icon="fluent:calendar-20-filled"
-                data-width="48" data-height="48"></span>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">No Events Found</h3>
-            <p class="text-gray-600">Create an event to get started.</p>
-        </div>
-    @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ($events as $event)
-                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <div class="p-4">
-                        <div class="flex items-center space-x-3">
-                            <div
-                                class="w-12 h-12 rounded-lg overflow-hidden bg-orange-500 flex items-center justify-center">
-                                @if ($event->cover_image_path_name)
-                                    <img src="{{ asset('storage/' . $event->cover_image_path_name) }}"
-                                        alt="{{ $event->title }}" class="w-full h-full object-cover">
-                                @else
-                                    <span class="iconify text-white" data-icon="fluent:calendar-20-filled" data-width="20"
-                                        data-height="20"></span>
-                                @endif
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="text-lg font-medium text-gray-900 truncate">{{ $event->title }}</h3>
-                                <p class="text-sm text-gray-600">{{ $event->start_date->format('F j, Y, g:i A') }}</p>
-                                <p class="text-sm text-orange-500">{{ $event->location }}</p>
-                            </div>
-                        </div>
-                        <p class="mt-2 text-sm text-gray-600 line-clamp-2">{{ $event->description }}</p>
-                        <div class="mt-2 flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Volunteers:
-                                {{ $event->volunteers()->count() }}/{{ $event->capacity }}</span>
-                            <span class="text-sm text-gray-500">{{ $event->type == 0 ? 'Online' : 'Offline' }}</span>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-        {{ $events->links() }}
-    @endif
-
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
 @endsection

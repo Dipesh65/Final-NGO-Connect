@@ -15,9 +15,10 @@ class NgoProfileController extends Controller
     public function index($id){
 
     $ngo = User::where('role_id', 1)->with('ngo')->findOrFail($id);
-    $posts = Post::get(); // Post::paginate(20)
+    $posts = Post::where('user_id',$id)->get(); // Post::paginate(20)
     $eventsCount = Event::where('user_id',$id)->count();
     $followersCount = Follows::where('ngo_id',$id)->count();
+
 
     if (auth()->check()) {
         $userId = auth()->id();
