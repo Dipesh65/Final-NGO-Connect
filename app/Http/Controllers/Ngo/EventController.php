@@ -15,6 +15,11 @@ class EventController extends Controller
         return view('ngo.events.index', compact('events'));
     }
 
+    public function showEventDetails($id){
+        $event = Event::where('id', $id)->first();
+        return view('ngo.events.details',compact('event'));
+    }
+
     public function createEvent()
     {
         return view('ngo.events.create');
@@ -54,5 +59,9 @@ class EventController extends Controller
         $event->save();
 
         return redirect()->route('ngo.events')->with('success', 'Event created successfully.');
+    }
+
+    public function deleteEvent(Request $request){
+
     }
 }

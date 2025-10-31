@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/events', [Ngo\EventController::class, 'events'])->name('ngo.events');
         Route::get('/events/create', [Ngo\EventController::class, 'createEvent'])->name('ngo.events.create');
         Route::post('/events', [Ngo\EventController::class, 'storeEvent'])->name('ngo.events.store');
+        Route::get('/event/{id}/details', [Ngo\EventController::class, 'showEventDetails'])->name('ngo.event.details');
 
         Route::get('/volunteers', [Ngo\VolunteerController::class, 'volunteers'])->name('ngo.volunteers');
         Route::post('/volunteers/{eventId}/{userId}/verify', [Ngo\VolunteerController::class, 'verifyVolunteer'])->name('ngo.volunteers.verify');

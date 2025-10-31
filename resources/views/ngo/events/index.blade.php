@@ -31,7 +31,7 @@
                 <!-- Events Grid -->
                 <div class="grid grid-cols-1 grid-cols-2 gap-6">
                     @foreach ($events as $event)
-                        <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col">
+                        <div class="bg-white rounded-sm overflow-hidden shadow-lg hover:shadow-2xl h-full flex flex-col">
                             <!-- Image Container -->
                             <div class="relative w-full h-36 overflow-hidden">
                                 @if ($event->cover_image_path_name)
@@ -83,25 +83,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Description -->
-                                <p class="text-sm text-gray-500 line-clamp-2 mb-3 flex-1">{{ $event->description }}</p>
-
-                                <!-- Statistics -->
-                                <div class="grid grid-cols-2 gap-3 py-3 border-t border-gray-200">
-                                    <div class="text-center">
-                                        <p class="text-xs font-semibold text-gray-500 uppercase">Volunteers</p>
-                                        <p class="text-lg font-bold text-red-500">{{ $event->volunteers()->count() }}<span class="text-gray-400 text-sm">/{{ $event->capacity }}</span></p>
-                                    </div>
-                                    <div class="text-center">
-                                        <p class="text-xs font-semibold text-gray-500 uppercase">Status</p>
-                                        <p class="text-lg font-bold {{ now() < $event->start_date ? 'text-green-500' : (now() < $event->end_date ? 'text-blue-500' : 'text-gray-400') }}">
-                                            {{ now() < $event->start_date ? 'Upcoming' : (now() < $event->end_date ? 'Live' : 'Ended') }}
-                                        </p>
-                                    </div>
-                                </div>
-
                                 <!-- View More Button -->
-                                <a href="#" class="w-full mt-3 inline-flex items-center justify-center px-4 py-2.5 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg text-sm">
+                                <a href="{{ route('ngo.event.details', $event->id) }}" class="w-full mt-3 inline-flex items-center justify-center px-4 py-2.5 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg text-sm">
                                     View Details
                                     <span class="iconify inline-block ml-2" data-icon="fluent:arrow-right-20-filled" data-width="16" data-height="16"></span>
                                 </a>
