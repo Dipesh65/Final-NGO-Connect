@@ -43,10 +43,13 @@ Route::middleware('auth')->group(function () {
     // Admin routes 
     Route::middleware('role:0')->prefix('admin')->group(function () {
 
-        Route::get('/',[Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/', [Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/dashboard', [Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
         Route::get('/ngos/{id}', [Admin\NgoController::class, 'show'])->name('admin.ngos.show');
+        Route::get('/ngo/all', [Admin\NgoController::class, 'getAll'])->name('admin.ngo.all');
+        Route::get('/ngo/details/{id}', [Admin\NgoController::class, 'getDetails'])->name('admin.ngo.details');
+        Route::get('/ngo/search', [Admin\NgoController::class, 'search'])->name('admin.ngo.search'); // <-- NEW: AJAX search route
         Route::post('/ngos/{id}/verify', [Admin\NgoController::class, 'verifyNgo'])->name('admin.ngos.verify');
         Route::post('/ngos/{id}/reject', [Admin\NgoController::class, 'rejectNgo'])->name('admin.ngos.reject');
 
@@ -54,7 +57,6 @@ Route::middleware('auth')->group(function () {
 
         // Routes related to logs
         Route::get('/log', [Admin\LogController::class, 'showLog'])->name('admin.log');
-
     });
 
     // NGO routes

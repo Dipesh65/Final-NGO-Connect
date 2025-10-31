@@ -14,7 +14,7 @@
                 <div class="flex items-start gap-6">
                     {{-- Logo --}}
                     <div class="flex-shrink-0">
-                        @if($ngo->ngo && $ngo->ngo->logo)
+                        @if ($ngo->ngo && $ngo->ngo->logo)
                             <img src="{{ Storage::url($ngo->ngo->logo) }}" alt="{{ $ngo->name }}"
                                 class="w-24 h-24 rounded-full object-cover border-4 border-gray-100">
                         @else
@@ -33,7 +33,7 @@
                                 class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
                                 {{ $ngo->ngo->category }}
                             </span>
-                            @if($ngo->verified)
+                            @if ($ngo->verified)
                                 <span
                                     class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -51,11 +51,11 @@
                             @endif
                         </div>
                         <p class="text-gray-600 mt-2 inline">Contact Person: <span
-                                class="font-medium text-gray-900">{{ $ngo->owner->name ?? 'N/A'}}
+                                class="font-medium text-gray-900">{{ $ngo->owner->name ?? 'N/A' }}
                                 ({{ $ngo->ngo->contact_position ?? 'N/A' }})</span>
                         <div class="px-1 inline">
                             ||
-                            <span class="font-medium text-gray-900 px-1">{{$ngo->owner->phone ?? 'N/A'}}</span>
+                            <span class="font-medium text-gray-900 px-1">{{ $ngo->owner->phone ?? 'N/A' }}</span>
                         </div>
                         </p>
                     </div>
@@ -175,7 +175,7 @@
             </div>
 
             {{-- Sub Categories --}}
-            @if($ngo->ngo->subcategory)
+            @if ($ngo->ngo->subcategory)
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div class="flex items-center mb-4">
                         <div class="w-1 h-6 bg-red-500 rounded-full mr-3"></div>
@@ -183,7 +183,7 @@
                     </div>
 
                     <div class="flex flex-wrap gap-2">
-                        @foreach(explode(',', $ngo->ngo->subcategory) as $sub)
+                        @foreach (explode(',', $ngo->ngo->subcategory) as $sub)
                             <span
                                 class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
                                 {{ trim($sub) }}
@@ -194,14 +194,14 @@
             @endif
 
             {{-- Photo Gallery --}}
-            @if($ngo->ngo->photos && count($ngo->ngo->photos) > 0)
+            @if ($ngo->ngo->photos && count($ngo->ngo->photos) > 0)
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-lg font-semibold text-gray-900">Photo Gallery</h3>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @foreach($ngo->ngo->photos as $photo)
+                        @foreach ($ngo->ngo->photos as $photo)
                             <div class="relative group overflow-hidden rounded-lg border border-gray-200">
                                 <img src="{{ asset('storage/' . $photo->path) }}" alt="NGO Photo"
                                     class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
@@ -212,19 +212,21 @@
             @endif
 
             {{-- Verification Documents --}}
-            @if($ngo->ngo->documents && count($ngo->ngo->documents) > 0)
+            @if ($ngo->ngo->documents && count($ngo->ngo->documents) > 0)
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-lg font-semibold text-gray-900">Verification Documents</h3>
                     </div>
 
                     <div class="space-y-3">
-                        @foreach($ngo->ngo->documents as $document)
+                        @foreach ($ngo->ngo->documents as $document)
                             <div
                                 class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex-shrink-0 w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div
+                                        class="flex-shrink-0 w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                         </svg>
@@ -236,7 +238,8 @@
                                 </div>
                                 <a href="{{ asset('storage/' . $document->path) }}" download
                                     class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                     </svg>
@@ -297,8 +300,7 @@
                         </label>
                         <textarea name="rejection_reason" id="rejection_reason" rows="5"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
-                            placeholder="Please provide a detailed reason for rejecting this NGO application..."
-                            required></textarea>
+                            placeholder="Please provide a detailed reason for rejecting this NGO application..." required></textarea>
                         @error('rejection_reason')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -340,11 +342,11 @@
                 data: {
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     alert('NGO verified successfully!');
                     location.reload();
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     alert('Error verifying NGO. Please try again.');
                     console.error(xhr);
                 }
@@ -377,11 +379,11 @@
                     _token: '{{ csrf_token() }}',
                     rejection_reason: reason
                 },
-                success: function (response) {
+                success: function(response) {
                     alert('NGO application rejected successfully!');
                     location.reload();
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     alert('Error rejecting NGO. Please try again.');
                     console.error(xhr);
                 }
@@ -389,7 +391,7 @@
         }
 
         // Close modal on outside click
-        document.getElementById('rejectModal').addEventListener('click', function (e) {
+        document.getElementById('rejectModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeRejectModal();
             }
