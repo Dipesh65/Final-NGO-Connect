@@ -37,18 +37,25 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'event_has_volunteers', 'event_id', 'user_id')->withTimestamps()->withPivot('status');
     }
 
-    public function getStatusAttribute()
-    {
-        $now = Carbon::now();
+    
 
-        if ($this->start_time > $now) {
-            return 'upcoming';
-        } elseif ($this->start_time <= $now && $this->end_time >= $now) {
-            return 'live';
-        } elseif ($this->end_time < $now) {
-            return 'completed';
-        }
+public function getStatusAttribute()
+{
+    $now = Carbon::now();
 
-        return 'unknown'; 
+    // Ensure start_date and end_date are Carbon instances
+    $start = Carbon::parse($this->start_date);
+    $end = Carbon::parse($this->end_date);
+
+    if ($start->isFuture()) {
+        return 'upcoming';
+    } elseif ($now->between($start, $end)) {
+        return 'live';
+    } elseif ($end->isPast()) {
+        return 'completed';
     }
+
+    return 'unknown';
+}
+
 }

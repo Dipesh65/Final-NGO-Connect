@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Form Content -->
-                <form action="{{ route('ngo.event.update', $event->id) }}" method="POST" class="p-8">
+                <form action="{{ route('ngo.event.update', $event->id) }}" method="POST" class="p-8" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

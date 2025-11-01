@@ -10,35 +10,36 @@ class Ngo extends Model
     use Notifiable;
 
     protected $fillable = [
-    'user_id',
-    'ngo_name',
-    'registration_date',
-    'category',
-    'subcategory',
-    'address',
-    'phone',
-    'registration_number',
-    'registration_district',
-    'last_renewal_date',
-    'pan_number',
-    'mission',
-    'contact_position',
-    'description',
-    'logo',
-];
+        'user_id',
+        'ngo_name',
+        'registration_date',
+        'category',
+        'subcategory',
+        'address',
+        'phone',
+        'registration_number',
+        'registration_district',
+        'last_renewal_date',
+        'pan_number',
+        'mission',
+        'contact_position',
+        'description',
+        'logo',
+    ];
 
-protected $casts = [
-    'photos' => 'array',
-];
+    protected $casts = [
+        'photos' => 'array',
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function favoritedByUsers()
+    public function followers()
     {
-        return $this->belongsToMany(User::class, 'user_ngo_favorites', 'ngo_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'ngo_id', 'user_id')
+            ->withTimestamps();
     }
 
     public function events()

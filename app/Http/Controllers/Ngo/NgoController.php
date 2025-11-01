@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Ngo;
 
-use App\Http\Controllers\Controller;
 use App\Models\Ngo;
 use App\Models\User;
+use App\Models\Follows;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class NgoController extends Controller
@@ -25,6 +26,7 @@ class NgoController extends Controller
         return view('ngo.profile.edit', compact('ngo'));
     }
 
+    // This needs to be removed
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -59,6 +61,18 @@ class NgoController extends Controller
         return redirect()->route('ngo.profile')->with('success', 'NGO profile updated successfully.');
     }
 
+    public function showFollowers()
+    {
+        $ngoId = auth()->user('ngo')->id;
+        // get follow rows with user
+        $follows = Follows::where('ngo_id', $ngoId)->with('user')->get();
+
+        // map to users
+        $followers = $follows->map->user->filter();
+        // dd($followers);
+        return view('ngo.followers',compact('followers'));
+
+    }
 
     public function volunteers()
     {

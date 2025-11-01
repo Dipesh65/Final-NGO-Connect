@@ -66,6 +66,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile/edit', [Ngo\NgoController::class, 'edit'])->name('ngo.profile.edit');
         Route::put('/profile', [Ngo\NgoController::class, 'update'])->name('ngo.profile.update');
 
+        Route::get('/followers', [Ngo\NgoController::class, 'showFollowers'])->name('ngo.followers');
+
         Route::get('/events', [Ngo\EventController::class, 'events'])->name('ngo.events');
         Route::get('/events/create', [Ngo\EventController::class, 'createEvent'])->name('ngo.events.create');
         Route::post('/events', [Ngo\EventController::class, 'storeEvent'])->name('ngo.events.store');

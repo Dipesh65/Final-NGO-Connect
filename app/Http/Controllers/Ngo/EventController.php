@@ -72,54 +72,38 @@ class EventController extends Controller
         return view('ngo.events.editDetails', compact('event'));
     }
 
-    public function updateEventDetails(Request $request, $id)
-    {
-        // $this->authorize('update', $event);
+public function updateEventDetails(Request $request, $id)
+{
+    $event = Event::findOrFail($id);
 
-        $event = Event::find($id);
-        // dd($request->cover_image_path_name);
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'requirements' => 'nullable|string',
+        'location' => 'required|string|max:255',
+        'type' => 'required|in:0,1',
+        'start_date' => 'required|date|after:now',
+        'end_date' => 'required|date|after:start_date',
+        'cover_image_path_name' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        'capacity' => 'required|string|max:255',
+        'is_volunteers_required' => 'required|boolean',
+    ]);
 
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'requirements' => 'string',
-            'location' => 'required|string|max:255',
-            'type' => 'required|in:0,1',
-            'start_date' => 'required|date|after:now',
-            'end_date' => 'required|date|after:start_date',
-            'cover_image_path_name' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'capacity' => 'required|string|max:255',
-            'is_volunteers_required' => 'required|boolean',
-        ]);
-
-        /* 
-        if ($request->hasFile('cover_image_path_name')) {
-        // Delete old image if it exists
-            if ($event->cover_image_path_name) {
-                Storage::disk('public')->delete($event->cover_image_path_name);
-            }
-
-        // Store new image
-            $path = $request->file('cover_image_path_name')->store('events', 'public');
-            $validated['cover_image_path_name'] = $path;
-        }
-            */
-
-        // if ($request->hasFile('cover_image')) {
-        //     // dd($request->cover_image);
-        //     $path = $request->file('cover_image')->store('event_images', 'public');
-        //     $event->cover_image_path_name = $path;
-        // }
-
-        if ($request->hasFile('cover_image_path_name')) {
-        $path = $request->file('cover_image_path_name')->store('event_images', 'public/storage');
+    // Handle image upload
+    if ($request->hasFile('cover_image_path_name')) {
+        // Store in 'storage/app/public/event_images'
+        $path = $request->file('cover_image_path_name')->store('event_images', 'public');
         $validated['cover_image_path_name'] = $path;
     }
 
-        $event->update($validated);
+    // Update event record
+    $event->update($validated);
 
-        return redirect()->route('ngo.events', $event->id)->with('success', 'Event updated successfully!');
-    }
+    return redirect()
+        ->route('ngo.events', $event->id)
+        ->with('success', 'Event updated successfully!');
+}
+
 
     public function deleteEvent($id)
     {
