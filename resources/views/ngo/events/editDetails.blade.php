@@ -53,10 +53,10 @@
 
                         <!-- Image Upload -->
                         <div class="space-y-2">
-                            <label for="cover_image" class="block text-sm font-semibold text-gray-900">Upload New
+                            <label for="cover_image_path_name" class="block text-sm font-semibold text-gray-900">Upload New
                                 Image</label>
-                            <input type="file" id="cover_image" name="cover_image" accept="image/*"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 {{ $errors->has('cover_image') ? 'border-red-500' : '' }}">
+                            <input type="file" id="cover_image_path_name" name="cover_image_path_name" accept="image/*"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 {{ $errors->has('cover_image_path_name') ? 'border-red-500' : '' }}">
                         </div>
                     </div>
 
@@ -99,10 +99,9 @@
                             </div>
 
                             <!-- Volunteers Requirement -->
-                             <div>
+                            <div>
                                 <label for="is_volunteers_required"
-                                    class="block text-sm font-semibold text-gray-900 mb-2">Volunteers
-                                    Required *</label>
+                                    class="block text-sm font-semibold text-gray-900 mb-2">Volunteers Required *</label>
                                 <select name="is_volunteers_required" id="is_volunteers_required"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors {{ $errors->has('is_volunteers_required') ? 'border-red-500' : '' }}"
                                     required>
@@ -158,7 +157,7 @@
                             </div>
 
                             <!-- Capacity -->
-                            <div>
+                            <div id="volunteerCapacity">
                                 <label for="capacity" class="block text-sm font-semibold text-gray-900 mb-2">Volunteer
                                     Capacity *</label>
                                 <input type="number" id="capacity" name="capacity"
@@ -171,36 +170,14 @@
 
                     <!-- Requirements -->
                     <div class="mb-8 pb-8 border-b border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-900 mb-4">Requirements & Contact</h2>
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Requirements</h2>
 
                         <div class="space-y-4">
                             <!-- Requirements -->
                             <div>
-                                <label for="requirements"
-                                    class="block text-sm font-semibold text-gray-900 mb-2">Requirements</label>
                                 <textarea id="requirements" name="requirements" rows="3"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors {{ $errors->has('requirements') ? 'border-red-500' : '' }}">{{ old('requirements', $event->requirements) }}</textarea>
                                 @error('requirements')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-                            </div>
-
-                            <!-- Contact Email -->
-                            <div>
-                                <label for="contact_email" class="block text-sm font-semibold text-gray-900 mb-2">Contact
-                                    Email *</label>
-                                <input type="email" id="contact_email" name="contact_email"
-                                    value="{{ old('contact_email', $event->contact_email) }}" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors {{ $errors->has('contact_email') ? 'border-red-500' : '' }}">
-                                @error('contact_email')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-                            </div>
-
-                            <!-- Contact Phone -->
-                            <div>
-                                <label for="contact_phone" class="block text-sm font-semibold text-gray-900 mb-2">Contact
-                                    Phone *</label>
-                                <input type="tel" id="contact_phone" name="contact_phone"
-                                    value="{{ old('contact_phone', $event->contact_phone) }}" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors {{ $errors->has('contact_phone') ? 'border-red-500' : '' }}">
-                                @error('contact_phone')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
                             </div>
                         </div>
                     </div>
@@ -226,4 +203,17 @@
     </div>
 
     <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+    <script>
+    $('#is_volunteers_required').change(function (e) {
+            e.preventDefault();
+            if ($(this).val() == "1") {
+                // console.log($(this).val());
+                $('#volunteerCapacity').show();
+
+            } else {
+               $('#capacity').val("0");
+                $('#volunteerCapacity').hide();
+            }
+        });
+        </script>
 @endsection

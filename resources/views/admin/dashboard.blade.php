@@ -148,35 +148,6 @@
     </div>
 </div>
 
-<!-- Quick Actions Section -->
-<div class="mt-8">
-    <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <button class="bg-white border border-gray-300 rounded-lg p-4 hover:shadow-md transition-shadow text-left">
-            <i class="fas fa-plus-circle text-blue-600 text-2xl mb-2"></i>
-            <h3 class="font-medium text-gray-900">Approve NGOs</h3>
-            <p class="text-sm text-gray-600">Review pending NGO registrations</p>
-        </button>
-
-        <button class="bg-white border border-gray-300 rounded-lg p-4 hover:shadow-md transition-shadow text-left">
-            <i class="fas fa-check-circle text-green-600 text-2xl mb-2"></i>
-            <h3 class="font-medium text-gray-900">Approve Events</h3>
-            <p class="text-sm text-gray-600">Review pending event submissions</p>
-        </button>
-
-        <button class="bg-white border border-gray-300 rounded-lg p-4 hover:shadow-md transition-shadow text-left">
-            <i class="fas fa-shield-alt text-red-600 text-2xl mb-2"></i>
-            <h3 class="font-medium text-gray-900">Moderate Content</h3>
-            <p class="text-sm text-gray-600">Review reported posts and content</p>
-        </button>
-
-        <button class="bg-white border border-gray-300 rounded-lg p-4 hover:shadow-md transition-shadow text-left">
-            <i class="fas fa-chart-bar text-purple-600 text-2xl mb-2"></i>
-            <h3 class="font-medium text-gray-900">View Logs</h3>
-            <p class="text-sm text-gray-600">View detailed logs</p>
-        </button>
-    </div>
-</div>
 </div>
 
 <script>

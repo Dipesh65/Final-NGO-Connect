@@ -14,11 +14,11 @@ class EventsSeeder extends Seeder
             [
                 'title' => 'Tech Conference 2025',
                 'description' => 'A conference bringing together innovators and leaders in technology.',
+                'requirements' => 'Commitment: Should attend the pre-event briefing and complete assigned tasks responsibly.',
                 'location' => 'Kathmandu, Nepal',
                 'type' => '1', // offline
-                'start_date' => Carbon::create(2025, 10, 5, 9, 0, 0),
-                'end_date' => Carbon::create(2025, 10, 5, 17, 0, 0),
-                'cover_image_path_name' => 'tech_conf_2025.jpg',
+                'start_date' => Carbon::create(2025, 11, 10, 9, 0, 0),
+                'end_date' => Carbon::create(2025, 11, 12, 17, 0, 0),
                 'capacity' => '500',
                 'is_volunteers_required' => true,
                 'user_id' => 2,
@@ -28,11 +28,11 @@ class EventsSeeder extends Seeder
             [
                 'title' => 'Online Coding Bootcamp',
                 'description' => 'A 7-day online bootcamp covering full stack development.',
+                'requirements' => 'Minimum Age: 18 years or above (or as per event policy).x`',
                 'location' => 'Zoom',
                 'type' => '0', // online
-                'start_date' => Carbon::create(2025, 11, 1, 10, 0, 0),
-                'end_date' => Carbon::create(2025, 11, 7, 18, 0, 0),
-                'cover_image_path_name' => 'bootcamp_banner.png',
+                'start_date' => Carbon::create(2025, 11, 8, 10, 0, 0),
+                'end_date' => Carbon::create(2025, 11, 10, 18, 0, 0),
                 'capacity' => '200',
                 'is_volunteers_required' => false,
                 'user_id' => 2,
@@ -43,10 +43,10 @@ class EventsSeeder extends Seeder
                 'title' => 'Charity Fundraiser Gala',
                 'description' => 'Fundraising event for local NGOs working in education and health.',
                 'location' => 'Biratnagar, Nepal',
+                'requirements' => 'Availability: Must be available on the event date and during setup/cleanup time.',
                 'type' => '1', // offline
                 'start_date' => Carbon::create(2025, 12, 15, 18, 30, 0),
                 'end_date' => Carbon::create(2025, 12, 15, 22, 0, 0),
-                'cover_image_path_name' => 'charity_gala.jpg',
                 'capacity' => '300',
                 'is_volunteers_required' => true,
                 'user_id' => 3,

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->text('description');
+            $table->text('requirements');
             $table->string('location', 255);
             $table->enum('type', [0, 1]); // online or offline
             $table->dateTime('start_date');

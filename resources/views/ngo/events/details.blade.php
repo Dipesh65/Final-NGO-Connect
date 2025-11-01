@@ -28,12 +28,6 @@
                             {{ $event->type == 0 ? 'Online Event' : 'Offline Event' }}
                         </span>
                     </div>
-                    <!-- Status Badge -->
-                    <div class="absolute top-6 left-6">
-                        <span class="inline-block px-4 py-2 bg-white rounded-full text-sm font-bold {{ now() < $event->start_date ? 'text-green-700 bg-green-100' : (now() < $event->end_date ? 'text-blue-700 bg-blue-100' : 'text-gray-700 bg-gray-100') }}">
-                            {{ now() < $event->start_date ? 'Upcoming' : (now() < $event->end_date ? 'Live' : 'Ended') }}
-                        </span>
-                    </div>
                 </div>
 
                 <!-- Content Section -->
@@ -86,7 +80,7 @@
                                 <div class="p-4 rounded-lg border border-red-400">
                                     <p class="text-2xl font-bold text-red-500">{{ $event->volunteers()->count() }} <span class="text-gray-600 text-lg">/ {{ $event->capacity }}</span></p>
                                     <div class="mt-3 w-full bg-gray-200 rounded-full h-2">
-                                        <div class="bg-red-500 h-2 rounded-full transition-all duration-300" style="width: {{ ($event->volunteers()->count() / $event->capacity) * 100 }}%"></div>
+                                        <div class="bg-red-500 h-2 rounded-full transition-all duration-300" style="width: {{ $event->capacity != 0 ? ($event->volunteers()->count() / $event->capacity) * 100 : 0 }}%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +99,7 @@
                             </div>
                         @endif
 
-                        @if ($event->requirements)
+                        {{-- @if ($event->requirements) --}}
                             <div>
                                 <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
                                     <span class="iconify mr-2 text-red-600" data-icon="fluent:checkmark-circle-20-filled" data-width="20" data-height="20"></span>
@@ -113,23 +107,7 @@
                                 </h3>
                                 <p class="text-gray-700 ml-8 text-base whitespace-pre-line">{{ $event->requirements }}</p>
                             </div>
-                        @endif
-
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-900 mb-2 flex items-center">
-                                    Contact Information
-                                </h3>
-                                <div class="ml-4 space-y-2">
-                                        <p class="text-gray-700 text-base">
-                                            <span class="font-semibold">Email:</span>
-                                            <a href="mailto:{{ $event->contact_email }}" class="text-red-600 hover:text-red-700 underline">{{ $event->contact_email }}</a>
-                                        </p>
-                                        <p class="text-gray-700 text-base">
-                                            <span class="font-semibold">Phone:</span>
-                                            <a href="tel:{{ $event->contact_phone }}" class="text-red-600 hover:text-red-700 underline">{{ $event->contact_phone }}</a>
-                                        </p>
-                                </div>
-                            </div>
+                        {{-- @endif --}}
                     </div>
 
                     <!-- Action Buttons -->
@@ -159,4 +137,5 @@
     </div>
 
     <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+    
 @endsection

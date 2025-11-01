@@ -18,54 +18,48 @@
             @csrf
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div class="sm:col-span-2">
-                    <label for="title" class="block text-sm font-medium text-gray-700">Event Title</label>
+                    <label for="title" class="block text-sm font-semibold text-gray-900 mb-2">Event Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
                         required>
                 </div>
                 <div class="sm:col-span-2">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea name="description" id="description" rows="6"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm">{{ old('description') }}</textarea>
+                    <label for="description" class="block text-sm font-semibold text-gray-900 mb-2">Description</label>
+                    <textarea name="description" id="description" rows="4"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors">{{ old('description') }}</textarea>
                 </div>
                 <div>
-                    <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                    <label for="location" class="block text-sm font-semibold text-gray-900 mb-2">Location</label>
                     <input type="text" name="location" id="location" value="{{ old('location') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
                         required>
                 </div>
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+                    <label for="type" class="block text-sm font-semibold text-gray-900 mb-2">Type</label>
                     <select name="type" id="type"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
                         required>
                         <option value="0" {{ old('type') == '0' ? 'selected' : '' }}>Online</option>
                         <option value="1" {{ old('type') == '1' ? 'selected' : '' }}>Offline</option>
                     </select>
                 </div>
                 <div>
-                    <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                    <label for="start_date" class="block text-sm font-semibold text-gray-900 mb-2">Start Date</label>
                     <input type="datetime-local" name="start_date" id="start_date" value="{{ old('start_date') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
                         required>
                 </div>
                 <div>
-                    <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
+                    <label for="end_date" class="block text-sm font-semibold text-gray-900 mb-2">End Date</label>
                     <input type="datetime-local" name="end_date" id="end_date" value="{{ old('end_date') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
                         required>
                 </div>
                 <div>
-                    <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
-                    <input type="text" name="capacity" id="capacity" value="{{ old('capacity') }}"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                        required>
-                </div>
-                <div>
-                    <label for="is_volunteers_required" class="block text-sm font-medium text-gray-700">Volunteers
+                    <label for="is_volunteers_required" class="block text-sm font-semibold text-gray-900 mb-2">Volunteers
                         Required</label>
                     <select name="is_volunteers_required" id="is_volunteers_required"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
                         required>
                         <option value="1" {{ old('is_volunteers_required') == '1' ? 'selected' : '' }}>Yes
                         </option>
@@ -73,11 +67,25 @@
                         </option>
                     </select>
                 </div>
+
+                <div id="volunteerCapacity">
+                    <label for="capacity" class="block text-sm font-semibold text-gray-900 mb-2">Capacity</label>
+                    <input type="text" name="capacity" id="capacity" value="{{ old('capacity') }}"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors"
+                        required>
+                </div>
+
                 <div class="sm:col-span-2">
-                    <label for="cover_image_path_name" class="block text-sm font-medium text-gray-700">Cover
+                    <label for="cover_image_path_name" class="block text-sm font-semibold text-gray-900 mb-2">Cover
                         Image</label>
                     <input type="file" name="cover_image_path_name" id="cover_image_path_name" accept="image/*"
                         class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="requirements" class="block text-sm font-semibold text-gray-900 mb-2">Requirements</label>
+                    <textarea name="requirements" id="requirements" rows="4"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-colors">{{ old('requirements') }}</textarea>
                 </div>
             </div>
             <div class="mt-6 flex items-center space-x-4">
@@ -101,8 +109,8 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('#eventForm').on('submit', function(e) {
+        $(document).ready(function () {
+            $('#eventForm').on('submit', function (e) {
                 let title = $('#title').val().trim();
                 let location = $('#location').val().trim();
                 let startDate = $('#start_date').val();
@@ -130,11 +138,23 @@
                 }
             });
 
-            $('#cover_image_path_name').on('change', function() {
+            $('#cover_image_path_name').on('change', function () {
                 let file = this.files[0];
                 if (file && !['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
                     alert('Please select a valid image file (JPG, PNG).');
                     this.value = '';
+                }
+            });
+
+            $('#is_volunteers_required').change(function (e) {
+                e.preventDefault();
+                if ($(this).val() == "1") {
+                    // console.log($(this).val());
+                    $('#volunteerCapacity').show();
+
+                } else {
+                    $('#capacity').val("0");
+                    $('#volunteerCapacity').hide();
                 }
             });
         });

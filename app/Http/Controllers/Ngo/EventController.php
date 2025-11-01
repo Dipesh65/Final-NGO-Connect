@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Ngo;
 
-use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Prompts\Concerns\Events;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -32,6 +33,7 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'requirements' => 'required|string',
             'location' => 'required|string|max:255',
             'type' => 'required|in:0,1',
             'start_date' => 'required|date|after:now',
@@ -44,6 +46,7 @@ class EventController extends Controller
         $event = new Event($request->only([
             'title',
             'description',
+            'requirements',
             'location',
             'type',
             'start_date',
@@ -74,10 +77,12 @@ class EventController extends Controller
         // $this->authorize('update', $event);
 
         $event = Event::find($id);
+        // dd($request->cover_image_path_name);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'requirements' => 'string',
             'location' => 'required|string|max:255',
             'type' => 'required|in:0,1',
             'start_date' => 'required|date|after:now',
@@ -87,41 +92,33 @@ class EventController extends Controller
             'is_volunteers_required' => 'required|boolean',
         ]);
 
-        // $validated = $request->validate([
-        //     'title' => 'required|string|max:255',
-        //     'description' => 'required|string',
-        //     'type' => 'required|in:0,1',
-        //     'category' => 'nullable|string|max:255',
-        //     'start_date' => 'required|date|before:end_date',
-        //     'end_date' => 'required|date|after:start_date',
-        //     'location' => 'required|string|max:255',
-        //     'capacity' => 'required|integer|min:1',
-        //     'requirements' => 'nullable|string',
-        //     'contact_email' => 'nullable|email|max:255',
-        //     'contact_phone' => 'nullable|string|max:20',
-        //     'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        // ]);
+        /* 
+        if ($request->hasFile('cover_image_path_name')) {
+        // Delete old image if it exists
+            if ($event->cover_image_path_name) {
+                Storage::disk('public')->delete($event->cover_image_path_name);
+            }
 
-        // if ($request->hasFile('cover_image_path_name')) {
-        //     $path = $request->file('cover_image_path_name')->store('event_images', 'public');
+        // Store new image
+            $path = $request->file('cover_image_path_name')->store('events', 'public');
+            $validated['cover_image_path_name'] = $path;
+        }
+            */
+
+        // if ($request->hasFile('cover_image')) {
+        //     // dd($request->cover_image);
+        //     $path = $request->file('cover_image')->store('event_images', 'public');
         //     $event->cover_image_path_name = $path;
         // }
 
-        // if ($request->hasFile('cover_image')) {
-        //     // Delete old image if it exists
-        //     if ($event->cover_image_path_name) {
-        //         Storage::disk('public')->delete($event->cover_image_path_name);
-        //     }
-
-        //     // Store new image
-        //     $path = $request->file('cover_image')->store('events', 'public');
-        //     $validated['cover_image_path_name'] = $path;
-        // }
+        if ($request->hasFile('cover_image_path_name')) {
+        $path = $request->file('cover_image_path_name')->store('event_images', 'public/storage');
+        $validated['cover_image_path_name'] = $path;
+    }
 
         $event->update($validated);
 
-        return redirect()->route('ngo.events', $event->id)
-            ->with('success', 'Event updated successfully!');
+        return redirect()->route('ngo.events', $event->id)->with('success', 'Event updated successfully!');
     }
 
     public function deleteEvent($id)
