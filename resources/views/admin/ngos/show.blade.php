@@ -33,7 +33,17 @@
                                 class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
                                 {{ $ngo->ngo->category }}
                             </span>
-                            @if ($ngo->verified)
+                            @if ($ngo->ngo->suspended)
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.293 7.293a1 1 0 011.414 0L10 7.586l.293-.293a1 1 0 111.414 1.414L11.414 9l.293.293a1 1 0 01-1.414 1.414L10 10.414l-.293.293a1 1 0 01-1.414-1.414L8.586 9l-.293-.293a1 1 0 010-1.414z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Suspended
+                                </span>
+                            @elseif ($ngo->ngo->verified)
                                 <span
                                     class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -50,13 +60,11 @@
                                 </span>
                             @endif
                         </div>
-                        <p class="text-gray-600 mt-2 inline">Contact Person: <span
-                                class="font-medium text-gray-900">{{ $ngo->owner->name ?? 'N/A' }}
-                                ({{ $ngo->ngo->contact_position ?? 'N/A' }})</span>
-                        <div class="px-1 inline">
-                            ||
-                            <span class="font-medium text-gray-900 px-1">{{ $ngo->owner->phone ?? 'N/A' }}</span>
-                        </div>
+                        <p class="text-gray-600 mt-2 inline">Contact Person: <span class="font-medium text-gray-900">
+                                {{ $ngo->owner->name ?? 'N/A' }} ({{ $ngo->ngo->contact_position ?? 'N/A' }})
+                            </span>
+                            <span class="px-1">||</span>
+                            <span class="font-medium text-gray-900">{{ $ngo->owner->phone ?? 'N/A' }}</span>
                         </p>
                     </div>
 
@@ -182,7 +190,7 @@
                         <h3 class="text-lg font-semibold text-gray-900">Sub Categories</h3>
                     </div>
 
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
                         @foreach (explode(',', $ngo->ngo->subcategory) as $sub)
                             <span
                                 class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
@@ -190,6 +198,27 @@
                             </span>
                         @endforeach
                     </div>
+
+                    {{-- Suspend NGO Button (only for verified NGOs) --}}
+                    <div class="flex justify-end">
+                        <form action="{{ route('admin.ngos.suspend', $ngo->id) }}" method="POST">
+                            @csrf
+                            @if ($ngo->ngo->suspended)
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    Unsuspend NGO
+                                </button>
+                            @else
+                                <button type="button" onclick="openSuspendModal()"
+                                    class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
+                                    <i class="fas fa-pause-circle mr-2"></i>
+                                    Suspend NGO
+                                </button>
+                            @endif
+                        </form>
+                    </div>
+
                 </div>
             @endif
 
@@ -251,14 +280,14 @@
                 </div>
             @endif
 
-            {{-- Admin Actions --}}
+            {{-- Admin Actions (Verify / Reject) --}}
             @if (!$ngo->verified)
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <div class="flex items-center mb-4">
                         <div class="w-1 h-6 bg-red-500 rounded-full mr-3"></div>
                         <h2 class="text-xl font-bold text-gray-900">Admin Actions</h2>
                     </div>
-                    <div class="flex">
+                    <div class="flex space-x-4">
                         <form action="{{ route('admin.ngos.verify', $ngo->id) }}" method="POST">
                             @csrf
                             @method('POST')
@@ -268,8 +297,9 @@
                                 Verify NGO
                             </button>
                         </form>
-                        <button type="button" onclick="$('#rejectModal').removeClass('hidden')"
-                            class="flex items-center justify-center mx-4 px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium">
+
+                        <button type="button" onclick="openRejectModal()"
+                            class="flex items-center justify-center px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium">
                             <i class="fas fa-times-circle mr-2"></i>
                             Reject NGO
                         </button>
@@ -278,10 +308,6 @@
             @endif
 
         </div>
-
-    </div>
-
-    </div>
     </div>
 
     {{-- Rejection Modal --}}
@@ -290,7 +316,7 @@
             <div class="bg-red-500 px-6 py-4 rounded-t-lg">
                 <h2 class="text-xl font-bold text-white">Reject NGO Application</h2>
             </div>
-            <form action="{{ route('admin.ngos.reject', $ngo->id) }}" method="POST">
+            <form id="rejectForm" action="{{ route('admin.ngos.reject', $ngo->id) }}" method="POST">
                 @csrf
                 @method('POST')
                 <div class="p-6">
@@ -306,19 +332,56 @@
                         @enderror
                     </div>
                     <p class="text-xs text-gray-500 mb-4">
-                        <i class="fas fa-info-circle mr-1"></i>
                         This reason will be sent to the NGO via email.
                     </p>
                 </div>
                 <div class="bg-gray-50 px-6 py-4 rounded-b-lg flex justify-end space-x-3">
-                    <button type="button" onclick="$('#rejectModal').addClass('hidden')"
+                    <button type="button" onclick="closeRejectModal()"
                         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium">
                         Cancel
                     </button>
                     <button type="submit"
                         class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium">
-                        <i class="fas fa-times-circle mr-2"></i>
                         Confirm Rejection
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- Suspend Modal --}}
+    <div id="suspendModal" class="hidden fixed inset-0 bg-black/10 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all">
+            <div class="bg-orange-500 px-6 py-4 rounded-t-lg">
+                <h2 class="text-xl font-bold text-white">Suspend NGO</h2>
+            </div>
+            <form id="suspendForm" action="{{ route('admin.ngos.suspend', $ngo->id) }}" method="POST">
+                @csrf
+                @method('POST')
+                <div class="p-6">
+                    <div class="mb-4">
+                        <label for="suspension_reason" class="block text-sm font-medium text-gray-700 mb-2">
+                            Reason for Suspension <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="suspension_reason" id="suspension_reason" rows="5"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                            placeholder="Please provide a detailed reason for suspending this NGO..." required></textarea>
+                        @error('suspension_reason')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <p class="text-xs text-gray-500 mb-4">
+                        This reason will be sent to the NGO via email.
+                    </p>
+                </div>
+                <div class="bg-gray-50 px-6 py-4 rounded-b-lg flex justify-end space-x-3">
+                    <button type="button" onclick="closeSuspendModal()"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium">
+                        Confirm Suspension
                     </button>
                 </div>
             </form>
@@ -330,71 +393,80 @@
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function verifyNGO(ngoId) {
-            if (!confirm('Are you sure you want to verify this NGO?')) {
-                return;
-            }
-
-            $.ajax({
-
-                url: `/ngos/${ngoId}/verify`,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    alert('NGO verified successfully!');
-                    location.reload();
-                },
-                error: function(xhr) {
-                    alert('Error verifying NGO. Please try again.');
-                    console.error(xhr);
-                }
-            });
-        }
-
+        /* ---------- Reject Modal ---------- */
         function openRejectModal() {
-            document.getElementById('rejectModal').classList.remove('hidden');
+            $('#rejectModal').removeClass('hidden');
         }
 
         function closeRejectModal() {
-            document.getElementById('rejectModal').classList.add('hidden');
-            document.getElementById('rejectForm').reset();
+            $('#rejectModal').addClass('hidden');
+            $('#rejectForm')[0].reset();
         }
 
-        function rejectNGO(event) {
-            event.preventDefault();
+        /* ---------- Suspend Modal ---------- */
+        function openSuspendModal() {
+            $('#suspendModal').removeClass('hidden');
+        }
 
-            const reason = document.getElementById('rejection_reason').value;
+        function closeSuspendModal() {
+            $('#suspendModal').addClass('hidden');
+            $('#suspendForm')[0].reset();
+        }
 
-            if (!reason.trim()) {
+        /* Close any modal when clicking outside */
+        $('#rejectModal, #suspendModal').on('click', function(e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
+                $(this).find('form')[0].reset();
+            }
+        });
+
+        /* ---------- AJAX Reject ---------- */
+        $('#rejectForm').on('submit', function(e) {
+            e.preventDefault();
+            const reason = $('#rejection_reason').val().trim();
+            if (!reason) {
                 alert('Please provide a reason for rejection.');
                 return;
             }
 
             $.ajax({
-                url: `/admin/ngos/{{ $ngo->ngo->id }}/reject`,
+                url: $(this).attr('action'),
                 type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    rejection_reason: reason
-                },
-                success: function(response) {
+                data: $(this).serialize(),
+                success: function() {
                     alert('NGO application rejected successfully!');
                     location.reload();
                 },
                 error: function(xhr) {
-                    alert('Error rejecting NGO. Please try again.');
+                    alert('Error rejecting NGO.');
                     console.error(xhr);
                 }
             });
-        }
+        });
 
-        // Close modal on outside click
-        document.getElementById('rejectModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeRejectModal();
+        /* ---------- AJAX Suspend ---------- */
+        $('#suspendForm').on('submit', function(e) {
+            e.preventDefault();
+            const reason = $('#suspension_reason').val().trim();
+            if (!reason) {
+                alert('Please provide a reason for suspension.');
+                return;
             }
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function() {
+                    alert('NGO suspended successfully!');
+                    location.reload();
+                },
+                error: function(xhr) {
+                    alert('Error suspending NGO.');
+                    console.error(xhr);
+                }
+            });
         });
     </script>
 @endpush
