@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Ngo;
 use App\Notifications\NgoRegistrationApproved;
 use App\Notifications\NgoRegistrationRejected;
 
@@ -134,5 +135,29 @@ class NgoController extends Controller
             'last_page' => $ngos->lastPage(),
             'links' => $ngos->links()->toHtml(), // Laravel's pagination HTML
         ]);
+    }
+    public function suspend(Request $request, $id)
+    {
+        $ngo = User::where('role_id', 1)->findOrFail($id);
+        $ngo = Ngo::where('user_id', $ngo->id)->first();
+        if ($ngo->suspended) {
+            $ngo->update([
+                'suspended' => false,
+                'verified' => true,
+                'suspension_reason' => null,
+                'suspended_at' => null,
+            ]);
+
+            return redirect()->route('admin.ngos')->with('success', 'NGO unsuspended successfully.');
+        } else {
+            $ngo->update([
+                'suspended' => true,
+                'verified' => false,
+                'suspension_reason' => $request->suspension_reason,
+                'suspended_at' => now(),
+            ]);
+
+            return redirect()->route('admin.ngos')->with('success', 'NGO suspended successfully.');
+        }
     }
 }

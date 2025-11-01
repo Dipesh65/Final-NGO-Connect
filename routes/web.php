@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/', [Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/dashboard', [Admin\DashboardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('/suspend-ngo/{id}', [Admin\NgoController::class, 'suspend'])->name('admin.ngos.suspend');
 
         Route::get('/ngos/{id}', [Admin\NgoController::class, 'show'])->name('admin.ngos.show');
         Route::get('/ngo/all', [Admin\NgoController::class, 'getAll'])->name('admin.ngo.all');

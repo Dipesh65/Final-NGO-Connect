@@ -25,10 +25,16 @@ class Ngo extends Model
         'contact_position',
         'description',
         'logo',
+        'suspended',
+        'suspension_reason',
+        'suspended_at',
+        'verified'
     ];
 
     protected $casts = [
         'photos' => 'array',
+        'verified' => 'boolean',
+        'suspended' => 'boolean',
     ];
 
     public function user()

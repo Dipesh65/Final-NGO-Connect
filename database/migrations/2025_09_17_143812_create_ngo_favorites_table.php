@@ -17,6 +17,11 @@ return new class extends Migration
             $table->foreignId('ngo_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
+        Schema::table('ngos', function (Blueprint $table) {
+            $table->boolean('suspended')->default(false);
+            $table->text('suspension_reason')->nullable();
+            $table->timestamp('suspended_at')->nullable();
+        });
     }
 
     /**
